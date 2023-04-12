@@ -3,6 +3,7 @@
 
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.permissions import IsAuthenticated
+from rest_framework.throttling import UserRateThrottle
 from tasks.mixins import OwnerMixin
 from tasks.models import List, Task
 from tasks.permissions import OwnerPermission
@@ -11,19 +12,21 @@ from tasks.serializers import ListSerializer, TaskSerializer
 
 # Create your views here.
 class ListViewSet(OwnerMixin, ModelViewSet):
-    """ View Set """
+    """ ListViewSet to create, read, update and delete task lists """
 
     queryset = List.objects.all()
     serializer_class = ListSerializer
+    throttle_classes = [UserRateThrottle]
     permission_classes = [IsAuthenticated, OwnerPermission]
 
 
 class TaskViewSet(OwnerMixin, ModelViewSet):
-    """ View Set """
+    """ TaskViewSet to create, read, update and delete tasks """
 
     queryset = Task.objects.all()
     serializer_class = TaskSerializer
-    permission_classes = [IsAuthenticated]
+    throttle_classes = [UserRateThrottle]
+    permission_classes = [IsAuthenticated, OwnerPermission]
 
     def get_queryset(self):
         """ Filter tasks """

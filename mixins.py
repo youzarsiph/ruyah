@@ -6,7 +6,7 @@ from rest_framework.permissions import IsAuthenticated
 
 # Create your mixins here.
 class OwnerMixin:
-    """ Adds object's owner """
+    """ Allow owners only """
 
     def perform_create(self, serializer):
         """ Add object's owner """
