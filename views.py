@@ -18,6 +18,9 @@ class ListViewSet(OwnerMixin, ModelViewSet):
     serializer_class = ListSerializer
     throttle_classes = [UserRateThrottle]
     permission_classes = [IsAuthenticated, OwnerPermission]
+    search_fields = ['name', ]
+    filterset_fields = ['default', ]
+    ordering_fields = ['id', 'name', 'default', ]
 
 
 class TaskViewSet(OwnerMixin, ModelViewSet):
@@ -27,6 +30,9 @@ class TaskViewSet(OwnerMixin, ModelViewSet):
     serializer_class = TaskSerializer
     throttle_classes = [UserRateThrottle]
     permission_classes = [IsAuthenticated, OwnerPermission]
+    search_fields = ['title', 'description']
+    filterset_fields = ['completed', 'starred']
+    ordering_fields = ['id', 'title', 'completed', 'starred']
 
     def get_queryset(self):
         """ Filter tasks """
