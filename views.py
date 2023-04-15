@@ -12,7 +12,7 @@ from tasks.serializers import ListSerializer, TaskSerializer
 
 # Create your views here.
 class ListViewSet(OwnerMixin, ModelViewSet):
-    """ ListViewSet to create, read, update and delete task lists """
+    """ Create, read, update and delete task lists """
 
     queryset = List.objects.all()
     serializer_class = ListSerializer
@@ -24,7 +24,7 @@ class ListViewSet(OwnerMixin, ModelViewSet):
 
 
 class TaskViewSet(OwnerMixin, ModelViewSet):
-    """ TaskViewSet to create, read, update and delete tasks """
+    """ Create, read, update and delete tasks """
 
     queryset = Task.objects.all()
     serializer_class = TaskSerializer
@@ -41,3 +41,10 @@ class TaskViewSet(OwnerMixin, ModelViewSet):
         lst = List.objects.get(id=self.kwargs['id'])
 
         return super().get_queryset().filter(list=lst)
+
+    def perform_create(self, serializer):
+        """ Add list instance before saving """
+
+        lst = List.objects.get(id=self.kwargs['id'])
+
+        serializer.save(user=self.request.user, list=lst)

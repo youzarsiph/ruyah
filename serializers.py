@@ -7,23 +7,23 @@ from tasks.models import List, Task
 
 # Create your serializers here.
 class ListSerializer(ModelSerializer):
-    """ Serializer """
+    """ Task List Serializer """
 
     class Meta:
         """ Meta data """
 
         model = List
-        fields = ['id', 'user', 'name', 'default', 'created_at', 'updated_at']
+        fields = ['id', 'name', 'default', 'created_at', 'updated_at']
 
 
 class TaskSerializer(ModelSerializer):
-    """ Serializer """
+    """ Task Serializer """
 
     class Meta:
         """ Meta data """
 
         model = Task
         fields = [
-            'id', 'user', 'list', 'title', 'description',
+            'id', 'title', 'description',
             'completed', 'starred', 'due', 'created_at', 'updated_at'
         ]

@@ -8,7 +8,7 @@ from tasks.views import ListViewSet, TaskViewSet
 
 # Create your routers here.
 router = DefaultRouter(trailing_slash=False)
-router.register('lists', ListViewSet)
+router.register('lists', ListViewSet, 'list')
 
 
 # Create your patters here.
