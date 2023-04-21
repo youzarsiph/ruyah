@@ -1,4 +1,4 @@
-""" Views """
+""" ViewSets """
 
 
 from rest_framework.viewsets import ModelViewSet
@@ -12,30 +12,30 @@ from tasks.serializers import ListSerializer, TaskSerializer
 
 # Create your views here.
 class ListViewSet(OwnerMixin, ModelViewSet):
-    """ Create, read, update and delete task lists """
+    """ ListViewSet for Creating, reading, updating and deleting task lists """
 
     queryset = List.objects.all()
     serializer_class = ListSerializer
     throttle_classes = [UserRateThrottle]
     permission_classes = [IsAuthenticated, OwnerPermission]
     search_fields = ['name', ]
-    filterset_fields = ['default', ]
-    ordering_fields = ['id', 'name', 'default', ]
+    ordering_fields = ['name', 'default']
+    filterset_fields = ['name', 'default']
 
 
 class TaskViewSet(OwnerMixin, ModelViewSet):
-    """ Create, read, update and delete tasks """
+    """ TaskViewSet for Creating, reading, updating and deleting tasks """
 
     queryset = Task.objects.all()
     serializer_class = TaskSerializer
     throttle_classes = [UserRateThrottle]
     permission_classes = [IsAuthenticated, OwnerPermission]
     search_fields = ['title', 'description']
-    filterset_fields = ['completed', 'starred']
-    ordering_fields = ['id', 'title', 'completed', 'starred']
+    ordering_fields = ['title', 'completed', 'starred']
+    filterset_fields = ['title', 'completed', 'starred']
 
     def get_queryset(self):
-        """ Filter tasks """
+        """ Filter tasks by list """
 
         # Get list instance
         lst = List.objects.get(id=self.kwargs['id'])
