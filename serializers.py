@@ -1,22 +1,22 @@
 """ Serializers """
 
 
-from rest_framework.serializers import ModelSerializer
+from rest_framework.serializers import HyperlinkedModelSerializer
 from tasks.models import List, Task
 
 
 # Create your serializers here.
-class ListSerializer(ModelSerializer):
+class ListSerializer(HyperlinkedModelSerializer):
     """ Task List Serializer """
 
     class Meta:
         """ Meta data """
 
         model = List
-        fields = ['id', 'name', 'default', 'created_at', 'updated_at']
+        fields = ['id', 'url', 'name', 'default', 'created_at', 'updated_at']
 
 
-class TaskSerializer(ModelSerializer):
+class TaskSerializer(HyperlinkedModelSerializer):
     """ Task Serializer """
 
     class Meta:
@@ -24,6 +24,6 @@ class TaskSerializer(ModelSerializer):
 
         model = Task
         fields = [
-            'id', 'title', 'description',
+            'id', 'url', 'title', 'description',
             'completed', 'starred', 'due', 'created_at', 'updated_at'
         ]

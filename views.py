@@ -34,6 +34,10 @@ class TaskViewSet(OwnerMixin, ModelViewSet):
     ordering_fields = ['title', 'completed', 'starred']
     filterset_fields = ['title', 'completed', 'starred']
 
+
+class UserTasksViewSet(TaskViewSet):
+    """ UserTasksViewSet for Creating, reading, updating and deleting tasks """
+
     def get_queryset(self):
         """ Filter tasks by list """
 
