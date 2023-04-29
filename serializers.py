@@ -13,7 +13,10 @@ class ListSerializer(HyperlinkedModelSerializer):
         """ Meta data """
 
         model = List
-        fields = ['id', 'url', 'name', 'default', 'created_at', 'updated_at']
+        fields = [
+            'id', 'url', 'name', 'description',
+            'default', 'created_at', 'updated_at'
+        ]
 
 
 class TaskSerializer(HyperlinkedModelSerializer):
@@ -25,5 +28,17 @@ class TaskSerializer(HyperlinkedModelSerializer):
         model = Task
         fields = [
             'id', 'url', 'title', 'description',
+            'completed', 'starred', 'due', 'created_at', 'updated_at'
+        ]
+
+
+class TaskSerializerWithList(TaskSerializer):
+    """ Task Serializer """
+
+    class Meta(TaskSerializer.Meta):
+        """ Meta data """
+
+        fields = [
+            'id', 'url', 'list', 'title', 'description',
             'completed', 'starred', 'due', 'created_at', 'updated_at'
         ]

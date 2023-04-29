@@ -22,6 +22,12 @@ class List(models.Model):
         db_index=True,
         help_text='List name'
     )
+    description = models.CharField(
+        max_length=256,
+        null=True,
+        blank=True,
+        help_text='Task list description'
+    )
     default = models.BooleanField(
         default=False,
         help_text='Designates if the list is the default'
@@ -34,6 +40,9 @@ class List(models.Model):
         """ Meta data """
 
         db_table = 'list'
+
+    def __str__(self):
+        return self.name
 
 
 class Task(models.Model):
@@ -81,3 +90,6 @@ class Task(models.Model):
         """ Meta data """
 
         db_table = 'task'
+
+    def __str__(self):
+        return self.title
