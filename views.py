@@ -30,13 +30,13 @@ class TaskViewSet(OwnerMixin, ModelViewSet):
     serializer_class = serializers.TaskSerializerWithList
     throttle_classes = [UserRateThrottle]
     permission_classes = [IsAuthenticated, OwnerPermission]
-    search_fields = ['title', 'description']
+    search_fields = ['title', 'description', 'due']
     ordering_fields = ['title', 'completed', 'starred', 'due']
     filterset_fields = ['title', 'completed', 'starred', 'due']
 
 
-class UserTasksViewSet(TaskViewSet):
-    """ UserTasksViewSet for Creating, reading, updating and deleting tasks """
+class ListTasksViewSet(TaskViewSet):
+    """ A ViewSet for performing CRUD operations on Task model """
 
     serializer_class = serializers.TaskSerializer
 

@@ -3,7 +3,7 @@
 
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
-from tasks.views import ListViewSet, TaskViewSet, UserTasksViewSet
+from tasks.views import ListViewSet, TaskViewSet, ListTasksViewSet
 
 
 # Create your routers here.
@@ -17,11 +17,11 @@ urlpatterns = [
     path('', include(router.urls)),
 
     # List tasks
-    path('lists/<int:id>/tasks/', UserTasksViewSet.as_view({
+    path('lists/<int:id>/tasks/', ListTasksViewSet.as_view({
         'get': 'list',
         'post': 'create'
     })),
-    path('lists/<int:id>/tasks/<int:pk>/', UserTasksViewSet.as_view({
+    path('lists/<int:id>/tasks/<int:pk>/', ListTasksViewSet.as_view({
         'get': 'retrieve',
         'put': 'update',
         'patch': 'partial_update',
