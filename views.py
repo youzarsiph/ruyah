@@ -19,8 +19,8 @@ class ListViewSet(OwnerMixin, ModelViewSet):
     throttle_classes = [UserRateThrottle]
     permission_classes = [IsAuthenticated, OwnerPermission]
     search_fields = ['name', 'description']
-    ordering_fields = ['name', 'default']
-    filterset_fields = ['name', 'default']
+    ordering_fields = ['name', ]
+    filterset_fields = ['name', ]
 
 
 class TaskViewSet(OwnerMixin, ModelViewSet):

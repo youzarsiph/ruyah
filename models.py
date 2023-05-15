@@ -28,10 +28,6 @@ class List(models.Model):
         blank=True,
         help_text='Task list description'
     )
-    default = models.BooleanField(
-        default=False,
-        help_text='Designates if the list is the default'
-    )
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
