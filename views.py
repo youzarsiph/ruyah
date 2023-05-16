@@ -15,7 +15,7 @@ class ListViewSet(OwnerMixin, ModelViewSet):
     """ A ViewSet for performing CRUD operations on List model """
 
     queryset = List.objects.all()
-    serializer_class = serializers.ListSerializer
+    serializer_class = serializers.HyperlinkedListSerializer
     throttle_classes = [UserRateThrottle]
     permission_classes = [IsAuthenticated, OwnerPermission]
     search_fields = ['name', 'description']
@@ -27,7 +27,7 @@ class TaskViewSet(OwnerMixin, ModelViewSet):
     """ A ViewSet for performing CRUD operations on Task model """
 
     queryset = Task.objects.all()
-    serializer_class = serializers.TaskSerializerWithList
+    serializer_class = serializers.TaskSerializer
     throttle_classes = [UserRateThrottle]
     permission_classes = [IsAuthenticated, OwnerPermission]
     search_fields = ['title', 'description', 'due']
@@ -38,7 +38,7 @@ class TaskViewSet(OwnerMixin, ModelViewSet):
 class ListTasksViewSet(TaskViewSet):
     """ A ViewSet for performing CRUD operations on Task model """
 
-    serializer_class = serializers.TaskSerializer
+    serializer_class = serializers.HyperlinkedTaskSerializer
 
     def get_queryset(self):
         """ Filter tasks by list """
