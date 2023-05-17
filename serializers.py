@@ -27,8 +27,8 @@ class HyperlinkedTaskSerializer(HyperlinkedModelSerializer):
 
         model = Task
         fields = [
-            'id', 'url', 'title', 'description',
-            'completed', 'starred', 'due', 'created_at', 'updated_at'
+            'id', 'url', 'title', 'description', 'completion_rate',
+            'completed', 'starred', 'deadline', 'created_at', 'updated_at'
         ]
 
 
@@ -41,6 +41,6 @@ class TaskSerializer(ModelSerializer):
         depth = 1
         model = Task
         fields = [
-            'id', 'list', 'title', 'description',
-            'completed', 'starred', 'due', 'created_at', 'updated_at'
+            'id', 'list', 'title', 'description', 'completion_rate',
+            'completed', 'starred', 'deadline', 'created_at', 'updated_at'
         ]

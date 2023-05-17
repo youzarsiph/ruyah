@@ -2,6 +2,7 @@
 
 
 from django.db import models
+from django.core import validators
 from django.contrib.auth import get_user_model
 
 
@@ -17,6 +18,8 @@ class List(models.Model):
         User,
         on_delete=models.CASCADE
     )
+
+    # Attributes
     name = models.CharField(
         max_length=32,
         db_index=True,
@@ -35,7 +38,10 @@ class List(models.Model):
     class Meta:
         """ Meta data """
 
-        db_table = 'list'
+        ordering = ('id', )
+        indexes = [
+            models.Index(name='list_name_index', fields=['name'])
+        ]
 
     def __str__(self):
         return self.name
@@ -54,6 +60,8 @@ class Task(models.Model):
         List,
         on_delete=models.CASCADE
     )
+
+    # Attributes
     title = models.CharField(
         max_length=32,
         db_index=True,
@@ -73,10 +81,24 @@ class Task(models.Model):
         default=False,
         help_text='Designates if the task is important'
     )
-    due = models.DateTimeField(
+    deadline = models.DateTimeField(
         null=True,
         blank=True,
-        help_text='Due date'
+        help_text='Task deadline'
+    )
+    completion_rate = models.PositiveSmallIntegerField(
+        default=0,
+        help_text='Task completion percentage',
+        validators=[
+            validators.MaxValueValidator(
+                100,
+                'Ensure this value is less than or equal to 100.'
+            ),
+            validators.MinValueValidator(
+                0,
+                'Ensure this value is greater than or equal to 0.'
+            ),
+        ],
     )
 
     created_at = models.DateTimeField(auto_now_add=True)
@@ -85,7 +107,20 @@ class Task(models.Model):
     class Meta:
         """ Meta data """
 
-        db_table = 'task'
+        ordering = ('id', )
+        indexes = [
+            models.Index(name='task_title_index', fields=['title'])
+        ]
+        constraints = [
+            models.CheckConstraint(
+                name='completion_rate_gte_0',
+                check=models.Q(completion_rate__gte=0)
+            ),
+            models.CheckConstraint(
+                name='completion_rate_lte_100',
+                check=models.Q(completion_rate__lte=100)
+            ),
+        ]
 
     def __str__(self):
         return self.title

@@ -12,7 +12,7 @@ from tasks.permissions import OwnerPermission
 
 # Create your views here.
 class ListViewSet(OwnerMixin, ModelViewSet):
-    """ A ViewSet for performing CRUD operations on List model """
+    """ A ViewSet that allows the user to create, read, update and delete their task lists. """
 
     queryset = List.objects.all()
     serializer_class = serializers.HyperlinkedListSerializer
@@ -24,19 +24,19 @@ class ListViewSet(OwnerMixin, ModelViewSet):
 
 
 class TaskViewSet(OwnerMixin, ModelViewSet):
-    """ A ViewSet for performing CRUD operations on Task model """
+    """ A ViewSet that allows the user to crete, read, update and delete their tasks """
 
     queryset = Task.objects.all()
     serializer_class = serializers.TaskSerializer
     throttle_classes = [UserRateThrottle]
     permission_classes = [IsAuthenticated, OwnerPermission]
-    search_fields = ['title', 'description', 'due']
-    ordering_fields = ['title', 'completed', 'starred', 'due']
-    filterset_fields = ['title', 'completed', 'starred', 'due']
+    search_fields = ['title', 'description', 'deadline']
+    ordering_fields = ['title', 'completed', 'starred', 'deadline']
+    filterset_fields = ['title', 'completed', 'starred', 'deadline']
 
 
 class ListTasksViewSet(TaskViewSet):
-    """ A ViewSet for performing CRUD operations on Task model """
+    """ A ViewSet that allows the user to crete, read, update and delete their tasks """
 
     serializer_class = serializers.HyperlinkedTaskSerializer
 
