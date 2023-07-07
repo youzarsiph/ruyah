@@ -39,9 +39,9 @@ class List(models.Model):
         """ Meta data """
 
         ordering = ('id', )
-        indexes = [
-            models.Index(name='list_name_index', fields=['name'])
-        ]
+        # indexes = [
+        #     models.Index(name='list_name_index', fields=['name'])
+        # ]
 
     def __str__(self):
         return self.name
@@ -81,9 +81,10 @@ class Task(models.Model):
         default=False,
         help_text='Designates if the task is important'
     )
-    deadline = models.DateTimeField(
+    deadline = models.DateField(
         null=True,
         blank=True,
+        db_index=True,
         help_text='Task deadline'
     )
     completion_rate = models.PositiveSmallIntegerField(
@@ -108,9 +109,9 @@ class Task(models.Model):
         """ Meta data """
 
         ordering = ('id', )
-        indexes = [
-            models.Index(name='task_title_index', fields=['title'])
-        ]
+        # indexes = [
+        #     models.Index(name='task_title_index', fields=['title'])
+        # ]
         constraints = [
             models.CheckConstraint(
                 name='completion_rate_gte_0',

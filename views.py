@@ -12,7 +12,7 @@ from tasks.permissions import OwnerPermission
 
 # Create your views here.
 class ListViewSet(OwnerMixin, ModelViewSet):
-    """ A ViewSet that allows the user to create, read, update and delete their task lists. """
+    """ A ViewSet that allows the user to create, read, update and delete their lists """
 
     queryset = List.objects.all()
     serializer_class = serializers.HyperlinkedListSerializer
