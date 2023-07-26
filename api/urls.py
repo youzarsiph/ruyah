@@ -3,7 +3,7 @@
 
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
-from tasks.views import ListViewSet, TaskViewSet, ListTasksViewSet
+from tasks.api.views import ListViewSet, TaskViewSet, ListTasksViewSet
 
 
 # Create your routers here.
