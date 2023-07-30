@@ -1,0 +1,15 @@
+{% extends 'tasks/base.html' %}
+{% load i18n %}
+
+{% block title %}{% translate 'Tasks | Delete Account' %}{% endblock %}
+
+{% block pg_title %}
+<h1>{% translate 'Delete your account' %}</h1>
+<p>{% translate 'Are you sure that you want to delete your account?' %}</p>
+<form method="post">
+  {% csrf_token %}
+  <button type="submit" class="btn btn-danger">
+    {% translate 'Delete' %}
+  </button>
+</form>
+{% endblock %}

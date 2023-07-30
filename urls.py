@@ -6,9 +6,17 @@ from tasks import views
 
 
 # Create your URLConf here.
+app_name = 'tasks'
+
+
 urlpatterns = [
     path('', views.IndexView.as_view(), name='index'),
     path('profile/', views.ProfileView.as_view(), name='profile'),
+
+    # Users
+    path('accounts/regsiter/', views.UserCreateView.as_view(), name='register'),
+    path('accounts/<int:pk>/update/', views.UserUpdateView.as_view(), name='update_user'),
+    path('accounts/<int:pk>/delete/', views.UserDeleteView.as_view(), name='delete_user'),
 
     # Lists
     path('lists/', views.ListView.as_view(), name='lists'),

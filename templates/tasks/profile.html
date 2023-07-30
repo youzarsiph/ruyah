@@ -14,6 +14,15 @@
   </div>
 </section>
 
+<section class="d-grid gap-4 d-lg-flex align-items-lg-center justify-content-lg-end">
+  <a href="{% url 'tasks:update_user' request.user.id %}" class="btn btn-danger">
+    {% translate 'Edit' %}
+  </a>
+  <a href="{% url 'tasks:delete_user' request.user.id %}" class="btn btn-danger">
+    {% translate 'Delete' %}
+  </a>
+</section>
+
 <ul class="list-unstyled">
   <li class="d-grid gap-2">
     <span>{% translate 'Email' %}</span>
