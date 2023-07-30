@@ -1,14 +1,66 @@
+{% load i18n %}
+
 <!DOCTYPE html>
-<html>
+<html lang="en">
+
 <head>
-    <meta charset='utf-8'>
-    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
-    <title>Page Title</title>
-    <meta name='viewport' content='width=device-width, initial-scale=1'>
-    <link rel='stylesheet' type='text/css' media='screen' href='main.css'>
-    <script src='main.js'></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@latest/font/bootstrap-icons.css" />
+  <title>
+    {% block title %}{% translate 'Tasks | ToDo lists' %}{% endblock %}
+  </title>
 </head>
-<body>
-    
+
+<body class="bg-light">
+  <header>
+    {% block header %}{% include 'tasks/components/navbar.html' %}{% endblock %}
+  </header>
+  <main>
+    <div class="container d-flex align-items-center justify-content-between">
+      <div class="w-100 py-5">
+        {% if messages %}
+          {% include 'tasks/components/messages.html' %}
+        {% endif %}
+
+        {% block content %}
+          <h1 class="display-1">
+            <strong>{% translate 'Tasks' %}</strong>
+          </h1>
+          <p class="lead mb-4">
+            {% blocktranslate %}
+              An app that allows users to shorten long urls.
+            {% endblocktranslate %}
+          </p>
+          <section class="row g-4">
+            <div class="col-12 col-md-6 col-lg-4">
+              <div class="card card-body p-4 rounded-4 border-0">
+                <h2 class="mb-4">
+                  {% translate 'Open Source' %}
+                </h2>
+                <p class="lead mb-4">
+                  {% blocktranslate %}
+                    Links is an open source fast, scalable, secure web app built using Python and Django.
+                  {% endblocktranslate %}
+                </p>
+                <a class="btn btn-lg btn-dark w-100 shadow-sm rounded-3 fw-bold" href="#">
+                  <i class="bi bi-github me-3"></i>
+                  {% translate 'Github' %}
+                </a>
+              </div>
+            </div>
+          </section>
+        {% endblock %}
+      </div>
+    </div>
+  </main>
+  <footer>{% block footer %}{% endblock %}</footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz"
+    crossorigin="anonymous"></script>
 </body>
+
 </html>

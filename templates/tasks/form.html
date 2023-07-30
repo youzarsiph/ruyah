@@ -1,0 +1,20 @@
+{% extends 'tasks/base.html' %}
+{% load i18n %}
+
+{% block content %}
+<h1>{% block pg_title %}{% endblock %}</h1>
+
+<form method="post">
+  {% csrf_token %}
+  {% include 'tasks/components/forms.html' %}
+
+  <button type="submit" class="btn btn-lg btn-dark">
+    {% translate 'Save' %}
+  </button>
+</form>
+
+<script>
+  document.querySelectorAll('form label').forEach(i => i.classList.add('form-label'))
+  document.querySelectorAll('form input').forEach(i => i.classList.add('form-control'))
+</script>
+{% endblock %}

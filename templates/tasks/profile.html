@@ -1,0 +1,39 @@
+{% extends 'tasks/base.html' %}
+{% load i18n %}
+
+{% block title %}{% translate 'Tasks | Profile' %}{% endblock %}
+
+{% block content %}
+<section class="d-flex align-items-center gap-4">
+  <div class="d-flex align-items-center justify-content-center p-4 bg-dark rounded-4">
+    {{ request.user.username|split:'0:1'|capfirst }}
+  </div>
+  <div class="d-grid gap-3">
+    <h1>{% firstof request.user.get_full_name request.user.username %}</h1>
+    <h3>@{{ request.user.username }}</h3>
+  </div>
+</section>
+
+<ul class="list-unstyled">
+  <li class="d-grid gap-2">
+    <span>{% translate 'Email' %}</span>
+    <small class="text-muted">{{ request.user.email }}</small>
+  </li>
+  <li class="d-grid gap-2">
+    <span>{% translate 'Task lists' %}</span>
+    <small class="text-muted">{{ request.user.list_set.count }}</small>
+  </li>
+  <li class="d-grid gap-2">
+    <span>{% translate 'Tasks' %}</span>
+    <small class="text-muted">{{ request.user.task_set.count }}</small>
+  </li>
+  <li class="d-grid gap-2">
+    <span>{% translate 'Last Login' %}</span>
+    <small class="text-muted">{{ request.user.last_login }}</small>
+  </li>
+  <li class="d-grid gap-2">
+    <span>{% translate 'Date Joined' %}</span>
+    <small class="text-muted">{{ request.user.date_joined }}</small>
+  </li>
+</ul>
+{% endblock %}
