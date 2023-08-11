@@ -9,14 +9,15 @@
         <input type="hidden" name="title" value="{{ task.title }}">
         <input type="hidden" id="starred" name="starred" value="{{ task.starred }}">
         <input type="hidden" id="completed" name="completed" value="{{ task.completed }}">
+        <input type="hidden" id="completion_rate" name="completion_rate" value="{{ task.completion_rate }}">
 
-        <button type="submit" class="btn btn-sm btn-light rounded-3"
-          onclick="document.getElementById('starred').setAttribute('value', !{{ task.starred }})">
-          <i class="bi bi-star{% if task.starred %}-fill text-warning{% endif %}"></i>
+        <button type="submit" class="btn btn-sm btn-{% if task.starred %}warning{% else %}light{% endif %} rounded-3"
+          onclick="document.getElementById('starred').setAttribute('value', !{% if task.starred %}true{% else %}false{% endif %})">
+          <i class="bi bi-star{% if task.starred %}-fill{% endif %}"></i>
         </button>
-        <button type="submit" class="btn btn-sm btn-light rounded-3"
-          onclick="document.getElementById('completed').setAttribute('value', !{{ task.completed }})">
-          <i class="bi bi-check-square{% if task.completed %}-fill text-success{% endif %}"></i>
+        <button type="submit" class="btn btn-sm btn-{% if task.completed %}success{% else %}light{% endif %} rounded-3"
+          onclick="document.getElementById('completed').setAttribute('value', !{% if task.completed %}true{% else %}false{% endif %})">
+          <i class="bi bi-check-square{% if task.completed %}-fill{% endif %}"></i>
         </button>
       </form>
 
@@ -31,15 +32,6 @@
             </h4>
           </li>
           <li>
-            <a href="{% url 'tasks:task_detail' task.id %}"
-              class="dropdown-item d-flex flex-row align-items-center gap-4">
-              <i class="bi bi-info-lg"></i>
-              <span class="dropdown-item-text">
-                {% translate 'Mark Completed' %}
-              </span>
-            </a>
-          </li>
-          <li>
             <a href="{% url 'tasks:update_task' task.id %}"
               class="dropdown-item d-flex flex-row align-items-center gap-4">
               <i class="bi bi-pencil"></i>
@@ -49,7 +41,7 @@
             </a>
           </li>
           <li>
-            <a href="#" href="{% url 'tasks:delete_task' task.id %}"
+            <a href="{% url 'tasks:delete_task' task.id %}"
               class="dropdown-item d-flex flex-row align-items-center gap-4">
               <i class="bi bi-trash"></i>
               <span class="dropdown-item-text">
@@ -63,21 +55,21 @@
   </div>
 
   <div class="d-grid gap-4 card-text">
-    <p class="lead mb-0">{{ task.description }}</p>
+    <p class="lead mb-0">{{ task.description|default:'' }}</p>
     <ul class="list-unstyled mb-0">
       <li>
         <small class="text-muted">
-          {% translate 'Deadline: ' %} {{ task.deadline }}
+          {% translate 'Deadline: ' %} {{ task.deadline|default:'No deadline' }}
         </small>
       </li>
     </ul>
     <div class="progress" role="progressbar" aria-label="{{ task.title }}" aria-valuenow="{{ task.completion_rate }}"
       aria-valuemin="0" aria-valuemax="100">
       <div style="width: {{ task.completion_rate }}%"
-        class="progress-bar text-bg-{% if task.completion_rate <= 25 %}danger{% elif 25 < task.completion_rate <= 50 %}warning{% elif 50 < task.completion_rate <= 75 %}info{% else %}success{% endif %}">
+        class="progress-bar text-bg-{% if task.completion_rate <= 25 %}danger{% elif 25 < task.completion_rate and task.completion_rate <= 50 %}warning{% elif 50 < task.completion_rate and task.completion_rate <= 75 %}info{% else %}success{% endif %}">
         {{ task.completion_rate }}
       </div>
     </div>
-    <a href="{% url 'tasks:task_detail' task.id %}" class="btn btn-lg btn-dark">Details</a>
+    <a href="{% url 'tasks:task_detail' task.id %}" class="btn btn-lg btn-dark shadow-sm">Details</a>
   </div>
 </div>

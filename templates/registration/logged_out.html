@@ -1,18 +1,20 @@
 {% extends 'tasks/base.html' %}
 {% load i18n %}
+
 {% block title %}{% translate 'Tasks | Logged out' %}{% endblock %}
+
 {% block content %}
 <div class="d-flex align-items-center justify-content-center">
   <div class="col-12 col-md-6 col-lg-4">
-    <h1 class="display-1 mb-4">
+    <h1 class="display-1 mb-4 text-center">
       {% translate 'Tasks' %}
     </h1>
     <div class="card card-body p-4 border-0 rounded-4">
       <h2 class="mb-4">{% translate 'Logged out' %}</h2>
-      <p class="lead mb-4 text-center">
+      <p class="lead mb-4">
         {% translate 'Thanks for your time.' %}
       </p>
-      <a href="{% url 'login' %}" class="btn btn-lg btn-dark fw-bold w-100">
+      <a href="{% url 'login' %}" class="btn btn-lg btn-dark fw-bold w-100 shadow-sm">
         {% translate 'Login again' %}
       </a>
     </div>

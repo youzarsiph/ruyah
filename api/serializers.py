@@ -7,40 +7,53 @@ from tasks.models import List, Task
 
 # Create your serializers here.
 class HyperlinkedListSerializer(HyperlinkedModelSerializer):
-    """ Task List Serializer """
+    """Task List Serializer"""
 
     class Meta:
-        """ Meta data """
+        """Meta data"""
 
         model = List
-        fields = [
-            'id', 'url', 'name', 'description',
-            'created_at', 'updated_at'
-        ]
+        fields = ["id", "url", "name", "description", "created_at", "updated_at"]
 
 
 class HyperlinkedTaskSerializer(HyperlinkedModelSerializer):
-    """ Task Serializer """
+    """Task Serializer"""
 
     class Meta:
-        """ Meta data """
+        """Meta data"""
 
         model = Task
         fields = [
-            'id', 'url', 'title', 'description', 'completion_rate',
-            'completed', 'starred', 'deadline', 'created_at', 'updated_at'
+            "id",
+            "url",
+            "title",
+            "description",
+            "completion_rate",
+            "completed",
+            "starred",
+            "deadline",
+            "created_at",
+            "updated_at",
         ]
 
 
 class TaskSerializer(ModelSerializer):
-    """ Task Serializer """
+    """Task Serializer"""
 
     class Meta:
-        """ Meta data """
+        """Meta data"""
 
         depth = 1
         model = Task
         fields = [
-            'id', 'list', 'title', 'description', 'completion_rate',
-            'completed', 'starred', 'deadline', 'created_at', 'updated_at'
+            "id",
+            "list",
+            "title",
+            "description",
+            "completion_rate",
+            "completed",
+            "starred",
+            "deadline",
+            "created_at",
+            "updated_at",
         ]

@@ -1,0 +1,27 @@
+{% extends 'tasks/base.html' %}
+{% load i18n %}
+
+{% block title %}{% translate 'Tasks | Completed tasks' %}{% endblock %}
+
+{% block content %}
+<h1 class="display-1 mb-4">
+  {% translate 'Completed Tasks' %}
+</h1>
+
+<section class="row g-4">
+  {% for task in request.user.task_set.all %}
+    {% if task.completed %}
+      <div class="col-12 col-md-6 col-lg-4">
+        {% include 'tasks/components/task.html' %}
+      </div>
+    {% endif %}
+  {% empty %}
+    <div class="card card-body border-0 p-4 rounded-4">
+      <h1>{% translate 'No completed tasks' %}</h1>
+      <p class="lead mb-0">
+        {% translate 'It looks like you do not have any completed tasks' %}
+      </p>
+    </div>
+  {% endfor %}
+</section>
+{% endblock %}

@@ -2,19 +2,20 @@
 {% load i18n %}
 
 {% block content %}
-<h1>{% block pg_title %}{% endblock %}</h1>
+<h1 class="display-1 mb-4">{% block pg_title %}{% endblock %}</h1>
 
-<form method="post">
+<form method="post" class="d-grid gap-4">
   {% csrf_token %}
   {% include 'tasks/components/forms.html' %}
 
-  <button type="submit" class="btn btn-lg btn-dark">
-    {% translate 'Save' %}
+  <button type="submit" class="btn btn-lg btn-dark shadow-sm">
+    {% translate 'Submit' %}
   </button>
 </form>
 
 <script>
   document.querySelectorAll('form label').forEach(i => i.classList.add('form-label'))
   document.querySelectorAll('form input').forEach(i => i.classList.add('form-control'))
+  document.querySelectorAll('form input[type=checkbox]').forEach(i => i.classList.replace('form-control', 'form-check-input'))
 </script>
 {% endblock %}

@@ -18,36 +18,66 @@
         </li>
         <li class="nav-item">
           <a class="nav-link d-flex align-items-center gap-4 gap-lg-2" href="{% url 'tasks:lists' %}">
-            <i class="bi bi-link-45deg"></i>
+            <i class="bi bi-list"></i>
             {% translate 'My Task Lists' %}
           </a>
         </li>
         <li class="nav-item">
           <a class="nav-link d-flex align-items-center gap-4 gap-lg-2" href="{% url 'tasks:create_list' %}">
             <i class="bi bi-plus-lg"></i>
-            {% translate 'New Task List' %}
+            {% translate 'New' %}
           </a>
         </li>
         <li class="nav-item">
-          {% if request.user.is_authenticated %}
-          <a class="nav-link d-flex align-items-center gap-4 gap-lg-2" href="{% url 'logout' %}">
-            <i class="bi bi-box-arrow-right"></i>
-            {% translate 'Log out' %}
+          <a class="nav-link d-flex align-items-center gap-4 gap-lg-2" href="{% url 'tasks:starred' %}">
+            <i class="bi bi-star"></i>
+            {% translate 'Starred' %}
           </a>
-          {% else %}
-          <a class="nav-link d-flex align-items-center gap-4 gap-lg-2" href="{% url 'login' %}">
-            <i class="bi bi-box-arrow-in-right"></i>
-            {% translate 'Log in' %}
+        </li>
+        <li class="nav-item">
+          <a class="nav-link d-flex align-items-center gap-4 gap-lg-2" href="{% url 'tasks:completed' %}">
+            <i class="bi bi-check-lg"></i>
+            {% translate 'Completed' %}
           </a>
-          {% endif %}
         </li>
       </ul>
       {% if request.user.is_authenticated %}
       <ul class="navbar-nav">
-        <li>
-          <div class="card card-body bg-dark fw-bold rounded-5 text-white py-2 px-3 text-center">
-            {{request.user.username|capfirst}}
-          </div>
+        <li class="dropdown">
+          <button class="btn btn-dark fw-bold rounded-5 w-100" data-bs-toggle="dropdown">
+            {{ request.user.username|capfirst }}
+          </button>
+          <ul class="dropdown-menu dropdown-menu-end rounded-3 border-0 shadow-sm">  
+            <li>
+              <h4 class="dropdown-header mb-0">
+                {% translate 'Account' %}
+              </h4>
+            </li>
+            <li>
+              <a href="{% url 'tasks:profile' %}" class="dropdown-item d-flex flex-row align-items-center gap-4">
+                <i class="bi bi-person"></i>
+                <span class="dropdown-item-text">
+                  {% translate 'Profile' %}
+                </span>
+              </a>
+            </li>
+            <li>
+              <a href="{% url 'tasks:update_user' request.user.id %}" class="dropdown-item d-flex flex-row align-items-center gap-4">
+                <i class="bi bi-pencil"></i>
+                <span class="dropdown-item-text">
+                  {% translate 'Edit Account' %}
+                </span>
+              </a>
+            </li>
+            <li>
+              <a href="{% url 'logout' %}" class="dropdown-item d-flex flex-row align-items-center gap-4">
+                <i class="bi bi-power"></i>
+                <span class="dropdown-item-text">
+                  {% translate 'Log out' %}
+                </span>
+              </a>
+            </li>
+          </ul>
         </li>
       </ul>
       {% endif %}

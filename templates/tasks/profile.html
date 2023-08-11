@@ -4,45 +4,51 @@
 {% block title %}{% translate 'Tasks | Profile' %}{% endblock %}
 
 {% block content %}
-<section class="d-flex align-items-center gap-4">
-  <div class="d-flex align-items-center justify-content-center p-4 bg-dark rounded-4">
-    {{ request.user.username|split:'0:1'|capfirst }}
-  </div>
-  <div class="d-grid gap-3">
-    <h1>{% firstof request.user.get_full_name request.user.username %}</h1>
-    <h3>@{{ request.user.username }}</h3>
-  </div>
-</section>
+<div class="d-grid d-lg-flex align-items-center justify-content-between gap-4 mb-4">
+  <section class="d-flex align-items-center gap-4 w-100">
+    <div class="d-flex align-items-center justify-content-center p-4 bg-dark rounded-4 text-white display-1 shadow-sm px-5">
+      {{ request.user.username|capfirst|slice:'0:1' }}
+    </div>
+    <div class="d-grid gap-2">
+      <h1>{% firstof request.user.get_full_name request.user.username %}</h1>
+      <h3>@{{ request.user.username }}</h3>
+    </div>
+  </section>
+  
+  <section class="d-grid gap-4">
+    <a href="{% url 'tasks:update_user' request.user.id %}" class="btn btn-lg btn-dark shadow-sm d-flex align-items-center gap-4">
+      <i class="bi bi-pencil"></i>
+      {% translate 'Edit' %}
+    </a>
+    <a href="{% url 'tasks:delete_user' request.user.id %}" class="btn btn-lg btn-danger shadow-sm d-flex align-items-center gap-4">
+      <i class="bi bi-trash"></i>
+      {% translate 'Delete' %}
+    </a>
+  </section>
+</div>
 
-<section class="d-grid gap-4 d-lg-flex align-items-lg-center justify-content-lg-end">
-  <a href="{% url 'tasks:update_user' request.user.id %}" class="btn btn-danger">
-    {% translate 'Edit' %}
-  </a>
-  <a href="{% url 'tasks:delete_user' request.user.id %}" class="btn btn-danger">
-    {% translate 'Delete' %}
-  </a>
-</section>
-
-<ul class="list-unstyled">
-  <li class="d-grid gap-2">
-    <span>{% translate 'Email' %}</span>
-    <small class="text-muted">{{ request.user.email }}</small>
-  </li>
-  <li class="d-grid gap-2">
-    <span>{% translate 'Task lists' %}</span>
-    <small class="text-muted">{{ request.user.list_set.count }}</small>
-  </li>
-  <li class="d-grid gap-2">
-    <span>{% translate 'Tasks' %}</span>
-    <small class="text-muted">{{ request.user.task_set.count }}</small>
-  </li>
-  <li class="d-grid gap-2">
-    <span>{% translate 'Last Login' %}</span>
-    <small class="text-muted">{{ request.user.last_login }}</small>
-  </li>
-  <li class="d-grid gap-2">
-    <span>{% translate 'Date Joined' %}</span>
-    <small class="text-muted">{{ request.user.date_joined }}</small>
-  </li>
-</ul>
+<div class="card card-body border-0 p-4 rounded-4">
+  <ul class="list-unstyled d-grid gap-4 mb-0">
+    <li class="d-grid gap-1">
+      <span>{% translate 'Email' %}</span>
+      <small class="text-muted">{{ request.user.email }}</small>
+    </li>
+    <li class="d-grid gap-1">
+      <span>{% translate 'Task lists' %}</span>
+      <small class="text-muted">{{ request.user.list_set.count }}</small>
+    </li>
+    <li class="d-grid gap-1">
+      <span>{% translate 'Tasks' %}</span>
+      <small class="text-muted">{{ request.user.task_set.count }}</small>
+    </li>
+    <li class="d-grid gap-1">
+      <span>{% translate 'Last Login' %}</span>
+      <small class="text-muted">{{ request.user.last_login }}</small>
+    </li>
+    <li class="d-grid gap-1">
+      <span>{% translate 'Date Joined' %}</span>
+      <small class="text-muted">{{ request.user.date_joined }}</small>
+    </li>
+  </ul>
+</div>
 {% endblock %}

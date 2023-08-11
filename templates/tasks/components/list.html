@@ -4,9 +4,9 @@
   <div class="d-flex flex-row align-items-center justify-content-between mb-4">
     <h3 class="mb-0">{{ list.name }}</h3>
     <div class="dropdown">
-      <a href="#" class="btn btn-sm btn-light rounded-3" data-bs-toggle="dropdown">
+      <button class="btn btn-sm btn-light rounded-3" data-bs-toggle="dropdown">
         <i class="bi bi-three-dots"></i>
-      </a>
+      </button>
       <ul class="dropdown-menu rounded-3 border-0 shadow-sm">
         <li>
           <h4 class="dropdown-header mb-0">
@@ -22,7 +22,7 @@
           </a>
         </li>
         <li>
-          <a href="#" href="{% url 'tasks:delete_list' list.id %}" class="dropdown-item d-flex flex-row align-items-center gap-4">
+          <a href="{% url 'tasks:delete_list' list.id %}" class="dropdown-item d-flex flex-row align-items-center gap-4">
             <i class="bi bi-trash"></i>
             <span class="dropdown-item-text">
               {% translate 'Delete list' %}
@@ -33,7 +33,7 @@
     </div>
   </div>
   <div class="d-grid gap-4 card-text">
-    <p class="lead mb-0">{{ list.description }}</p>
+    <p class="lead mb-0">{{ list.description|default:'' }}</p>
     <ul class="list-unstyled mb-0">
       <li>
         <small class="text-muted">
@@ -41,7 +41,7 @@
         </small>
       </li>
     </ul>
-    <a href="{% url 'tasks:list_detail' list.id %}" class="btn btn-lg btn-dark">
+    <a href="{% url 'tasks:list_detail' list.id %}" class="btn btn-lg btn-dark shadow-sm">
       {% translate 'Details' %}
     </a>
   </div>

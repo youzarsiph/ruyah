@@ -1,48 +1,53 @@
 {% extends 'tasks/base.html' %}
 {% load i18n %}
+
 {% block title %}{% translate 'Tasks | Login' %}{% endblock %}
+
 {% block content %}
 <div class="d-flex align-items-center justify-content-center">
   <div class="col-12 col-md-6 col-lg-4">
-    <h1 class="display-1 mb-4">
+    <h1 class="display-1 mb-4 text-center">
       {% translate 'Tasks' %}
     </h1>
     {% if next %}
-    {% if user.is_authenticated %}
-    <p>
-      {% blocktranslate %}
-      Your account doesn't have access to this page. To proceed,
-      please login with an account that has access.
-      {% endblocktranslate %}
-    </p>
-    {% else %}
-    <p>
-      {% translate 'Please login to see this page.' %}
-    </p>
+      {% if user.is_authenticated %}
+        <p>
+          {% blocktranslate %}
+          Your account doesn't have access to this page. To proceed,
+          please login with an account that has access.
+          {% endblocktranslate %}
+        </p>
+      {% else %}
+        <p>
+          {% translate 'Please login to see this page.' %}
+        </p>
+      {% endif %}
     {% endif %}
-    {% endif %}
+
     <div class="card card-body p-4 border-0 rounded-4">
       <h2 class="mb-4">{% translate 'Login' %}</h2>
-      <p class="lead mb-4 text-center">
+      <p class="lead mb-4">
         {% translate 'Login to start using Tasks' %}
       </p>
+
       {% if form.errors %}
-      <div class="alert alert-danger rounded-4 shadow-sm" role="alert">
-        <div class="badge bg-danger">{% translate 'Error' %}</div>
-        {% translate 'Please enter a correct username and password. Note that both fields may be case-sensitive.' %}
-      </div>
+        <div class="alert alert-danger rounded-4 shadow-sm" role="alert">
+          <div class="badge bg-danger">{% translate 'Error' %}</div>
+          {% translate 'Please enter a correct username and password. Note that both fields may be case-sensitive.' %}
+        </div>
       {% endif %}
-      <form method="post">
+
+      <form method="post" class="d-grid gap-4">
         {% csrf_token %}
         <input type="hidden" name="next" value="{{ next }}">
-        <div class="form-floating mb-4">
+        <div class="form-floating">
           {{ form.username }}
           {{ form.username.label_tag }}
           <small class="text-muted">
             {{ form.username.help_text }}
           </small>
         </div>
-        <div class="form-floating mb-4">
+        <div class="form-floating">
           {{ form.password }}
           {{ form.password.label_tag }}
           <small class="text-muted">
@@ -52,10 +57,14 @@
         <button type="submit" class="btn btn-lg btn-dark shadow-sm rounded-3 fw-bold w-100">
           {% translate 'Submit' %}
         </button>
+        <small class="text-muted">
+          {% translate 'Do not have an acoount?' %} <a href="{% url 'tasks:register' %}" class="text-decoration-none">{% translate 'Register' %}</a>
+        </small>
       </form>
     </div>
   </div>
 </div>
+
 <script>
   document.querySelectorAll('form label').forEach(i => i.classList.add('form-label'))
   document.querySelectorAll('form input').forEach(i => i.classList.add('form-control'))

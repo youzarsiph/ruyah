@@ -4,12 +4,12 @@
 {% block title %}{% translate 'My Task Lists' %}{% endblock %}
 
 {% block content %}
-<div class="d-flex align-items-center justify-content-between">
-  <h1 class="display-3">
+<div class="d-flex align-items-center justify-content-between mb-4">
+  <h1 class="display-3 mb-0">
     {% translate 'My Task Lists' %}
   </h1>
-  <a href="{% url 'tasks:create_list' %}" class="btn btn-llg btn-dark">
-    New
+  <a href="{% url 'tasks:create_list' %}" class="btn btn-lg btn-dark shadow-sm">
+    {% translate 'New' %}
   </a>
 </div>
 
@@ -20,10 +20,12 @@
   </div>
   {% empty %}
   <div class="col-12 text-center">
-    <h2>{% translate 'Oops' %}</h2>
-    <p class="lead">
-      {% translate 'It looks like you not have any task lists' %}
-    </p>
+    <div class="card card-body border-0 p-4 rounded-4">
+      <h2>{% translate 'Oops' %}</h2>
+      <p class="lead">
+        {% translate 'It looks like you not have any task lists' %}
+      </p>
+    </div>
   </div>
   {% endfor %}
 </div>

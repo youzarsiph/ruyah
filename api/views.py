@@ -12,45 +12,49 @@ from tasks.api.permissions import OwnerPermission
 
 # Create your views here.
 class ListViewSet(OwnerMixin, ModelViewSet):
-    """ A ViewSet that allows the user to create, read, update and delete their lists """
+    """A ViewSet that allows the user to create, read, update and delete their lists"""
 
     queryset = List.objects.all()
     serializer_class = serializers.HyperlinkedListSerializer
     throttle_classes = [UserRateThrottle]
     permission_classes = [IsAuthenticated, OwnerPermission]
-    search_fields = ['name', 'description']
-    ordering_fields = ['name', ]
-    filterset_fields = ['name', ]
+    search_fields = ["name", "description"]
+    ordering_fields = [
+        "name",
+    ]
+    filterset_fields = [
+        "name",
+    ]
 
 
 class TaskViewSet(OwnerMixin, ModelViewSet):
-    """ A ViewSet that allows the user to crete, read, update and delete their tasks """
+    """A ViewSet that allows the user to crete, read, update and delete their tasks"""
 
     queryset = Task.objects.all()
     serializer_class = serializers.TaskSerializer
     throttle_classes = [UserRateThrottle]
     permission_classes = [IsAuthenticated, OwnerPermission]
-    search_fields = ['title', 'description', 'deadline']
-    ordering_fields = ['title', 'completed', 'starred', 'deadline']
-    filterset_fields = ['title', 'completed', 'starred', 'deadline']
+    search_fields = ["title", "description", "deadline"]
+    ordering_fields = ["title", "completed", "starred", "deadline"]
+    filterset_fields = ["title", "completed", "starred", "deadline"]
 
 
 class ListTasksViewSet(TaskViewSet):
-    """ A ViewSet that allows the user to crete, read, update and delete their tasks """
+    """A ViewSet that allows the user to crete, read, update and delete their tasks"""
 
     serializer_class = serializers.HyperlinkedTaskSerializer
 
     def get_queryset(self):
-        """ Filter tasks by list """
+        """Filter tasks by list"""
 
         # Get list instance
-        lst = List.objects.get(id=self.kwargs['id'])
+        lst = List.objects.get(id=self.kwargs["id"])
 
         return super().get_queryset().filter(list=lst)
 
     def perform_create(self, serializer):
-        """ Add list instance before saving """
+        """Add list instance before saving"""
 
-        lst = List.objects.get(id=self.kwargs['id'])
+        lst = List.objects.get(id=self.kwargs["id"])
 
         serializer.save(user=self.request.user, list=lst)
