@@ -7,7 +7,7 @@
 <section>
   <div class="bg-white p-4 rounded-4 mb-4">
     <div class="d-grid d-md-flex align-items-md-center justify-content-md-between gap-4 mb-4">
-      <h1>{{ list.name }}</h1>
+      <h1>{{ list.name|title }}</h1>
       <div class="d-grid d-md-flex align-items-md-center gap-4">
         <button type="button" class="btn btn-lg btn-primary d-flex align-items-center gap-4 shadow-sm"
           data-bs-toggle="modal" data-bs-target="#modal">
@@ -131,20 +131,16 @@
         </h1>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
-      <div class="modal-body py-0">
-        <p class="lead">{% translate 'Are you sure you want to delete this list?' %}</p>
+      <div class="modal-body py-0 d-grid gap-4">
+        <p class="lead mb-0">{% translate 'Are you sure you want to delete this list?' %}</p>
 
         <form id="form" action="{% url 'tasks:delete_list' list.id %}" method="post">
           {% csrf_token %}
+
+          <button type="submit" class="btn btn-lg btn-danger shadow-sm">
+            {% translate 'Delete' %}
+          </button>
         </form>
-      </div>
-      <div class="modal-footer flex-column align-items-stretch w-100 gap-2 pb-3 border-top-0">
-        <button type="submit" form="form" class="btn btn-lg btn-danger shadow-sm">
-          {% translate 'Delete' %}
-        </button>
-        <button type="button" class="btn btn-lg btn-secondary shadow-sm" data-bs-dismiss="modal">
-          {% translate 'Cancel' %}
-        </button>
       </div>
     </div>
   </div>
