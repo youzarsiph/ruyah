@@ -131,13 +131,13 @@
         </h1>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
-      <div class="modal-body py-0 d-grid gap-4">
+      <div class="modal-body d-grid gap-4">
         <p class="lead mb-0">{% translate 'Are you sure you want to delete this list?' %}</p>
 
         <form id="form" action="{% url 'tasks:delete_list' list.id %}" method="post">
           {% csrf_token %}
 
-          <button type="submit" class="btn btn-lg btn-danger shadow-sm">
+          <button type="submit" class="btn btn-lg btn-danger shadow-sm w-100">
             {% translate 'Delete' %}
           </button>
         </form>

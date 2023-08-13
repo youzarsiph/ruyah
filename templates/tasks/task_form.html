@@ -1,6 +1,20 @@
 {% extends 'tasks/form.html' %}
 {% load i18n %}
 
-{% block title %}{% translate 'Tasks | Create/Update a task' %}{% endblock %}
+{% block title %}
+  {% url 'tasks:create_task' as url %}
+  {% if request.path == url %}
+    {% translate 'Create task' %}
+  {% else %}
+    {% translate 'Update' %} {{ task.title|title }}
+  {% endif %}
+{% endblock %}
 
-{% block pg_title %}{% translate 'Create/Update a task' %}{% endblock %}
+{% block pg_title %}
+  {% url 'tasks:create_task' as url %}
+  {% if request.path == url %}
+    {% translate 'Create task' %}
+  {% else %}
+    {% translate 'Update' %} {{ task.title|title }}
+  {% endif %}
+{% endblock %}

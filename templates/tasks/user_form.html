@@ -1,6 +1,20 @@
 {% extends 'tasks/form.html' %}
 {% load i18n %}
 
-{% block title %}{% translate 'Tasks | Register/Edit Account' %}{% endblock %}
+{% block title %}
+  {% url 'tasks:register' as url %}
+  {% if request.path == url %}
+    {% translate 'Register' %}
+  {% else %}
+    {% translate 'Update Account' %}
+  {% endif %}
+{% endblock %}
 
-{% block pg_title %}{% translate 'Register/Edit Account' %}{% endblock %}
+{% block pg_title %}
+  {% url 'tasks:register' as url %}
+  {% if request.path == url %}
+    {% translate 'Register' %}
+  {% else %}
+    {% translate 'Update Account' %}
+  {% endif %}
+{% endblock %}

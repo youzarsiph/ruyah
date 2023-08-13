@@ -67,7 +67,7 @@
       aria-valuemin="0" aria-valuemax="100">
       <div style="width: {{ task.completion_rate }}%"
         class="progress-bar text-bg-{% if task.completion_rate <= 25 %}danger{% elif 25 < task.completion_rate and task.completion_rate <= 50 %}warning{% elif 50 < task.completion_rate and task.completion_rate <= 75 %}info{% else %}success{% endif %}">
-        {{ task.completion_rate }}
+        {{ task.completion_rate }}%
       </div>
     </div>
     <a href="{% url 'tasks:task_detail' task.id %}" class="btn btn-lg btn-dark shadow-sm">Details</a>

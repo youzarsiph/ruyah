@@ -11,7 +11,7 @@ from tasks.mixins import AccountOwnerMixin, UserFilterMixin, SaveWithUserMixin
 
 
 # Create your views here.
-class IndexView(LoginRequiredMixin, generic.TemplateView):
+class IndexView(generic.TemplateView):
     """Home"""
 
     template_name = "tasks/index.html"

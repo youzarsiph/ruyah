@@ -41,9 +41,9 @@
           </a>
         </li>
       </ul>
-      {% if request.user.is_authenticated %}
       <ul class="navbar-nav">
-        <li class="dropdown">
+        {% if request.user.is_authenticated %}
+        <li class="nav-item dropdown">
           <button class="btn btn-dark fw-bold rounded-5 w-100" data-bs-toggle="dropdown">
             {{ request.user.username|capfirst }}
           </button>
@@ -79,8 +79,17 @@
             </li>
           </ul>
         </li>
+        {% else %}
+        <li class="nav-item d-flex align-items-center gap-4">
+          <a href="{% url 'login' %}" class="btn btn-outline-dark rounded-5 fw-bold">
+            {% translate 'Login' %}
+          </a>
+          <a href="{% url 'tasks:register' %}" class="btn btn-dark rounded-5 fw-bold">
+            {% translate 'Register' %}
+          </a>
+        </li>
+        {% endif %}
       </ul>
-      {% endif %}
     </div>
   </div>
 </nav>

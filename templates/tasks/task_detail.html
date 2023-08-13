@@ -61,7 +61,7 @@
         </li>
         <li class="d-grid gap-1">
           <span>{% translate 'Completion rate' %}</span>
-          <small class="text-muted">{{ task.completion_rate }}</small>
+          <small class="text-muted">{{ task.completion_rate }}%</small>
         </li>
         <li class="d-grid gap-1">
           <span>{% translate 'Deadline' %}</span>
@@ -88,13 +88,13 @@
           </h1>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
-        <div class="modal-body py-0 d-grid gap-4">
-          <p class="lead mb-4">{% translate 'Are you sure you want to delete this task?' %}</p>
+        <div class="modal-body d-grid gap-4">
+          <p class="lead mb-0">{% translate 'Are you sure you want to delete this task?' %}</p>
   
           <form id="form" action="{% url 'tasks:delete_task' task.id %}" method="post">
             {% csrf_token %}
 
-            <button type="submit" class="btn btn-lg btn-danger shadow-sm">
+            <button type="submit" class="btn btn-lg btn-danger shadow-sm w-100">
               {% translate 'Delete' %}
             </button>
           </form>
