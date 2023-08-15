@@ -10,7 +10,7 @@
 
 <section class="row g-4">
   {% for task in request.user.task_set.all %}
-    {% if task.starred %}
+    {% if task.starred and not task.completed %}
       <div class="col-12 col-md-6 col-lg-4">
         {% include 'tasks/components/task.html' %}
       </div>

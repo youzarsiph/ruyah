@@ -13,7 +13,7 @@
   </a>
 </div>
 
-<div class="row g-4">
+<div class="row g-4 mb-5">
   {% for list in list_list %}
   <div class="col-12 col-md-6 col-lg-4">
     {% include 'tasks/components/list.html' %}
@@ -29,4 +29,8 @@
   </div>
   {% endfor %}
 </div>
+
+{% if is_paginated %}
+  {% include 'tasks/components/pagination.html' %}
+{% endif %}
 {% endblock %}

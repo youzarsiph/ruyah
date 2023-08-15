@@ -44,7 +44,7 @@
       <ul class="navbar-nav">
         {% if request.user.is_authenticated %}
         <li class="nav-item dropdown">
-          <button class="btn btn-dark fw-bold rounded-5 w-100" data-bs-toggle="dropdown">
+          <button class="btn btn-lg btn-dark fw-bold rounded-5 w-100" data-bs-toggle="dropdown">
             {{ request.user.username|capfirst }}
           </button>
           <ul class="dropdown-menu dropdown-menu-end rounded-3 border-0 shadow-sm">  
@@ -81,10 +81,10 @@
         </li>
         {% else %}
         <li class="nav-item d-flex align-items-center gap-4">
-          <a href="{% url 'login' %}" class="btn btn-outline-dark rounded-5 fw-bold">
+          <a href="{% url 'login' %}" class="btn btn-lg btn-outline-dark rounded-5 fw-bold w-100">
             {% translate 'Login' %}
           </a>
-          <a href="{% url 'tasks:register' %}" class="btn btn-dark rounded-5 fw-bold">
+          <a href="{% url 'tasks:register' %}" class="btn btn-lg btn-dark rounded-5 fw-bold w-100">
             {% translate 'Register' %}
           </a>
         </li>

@@ -82,6 +82,7 @@ class ListView(LoginRequiredMixin, UserFilterMixin, generic.ListView):
     """Displays task lists"""
 
     model = List
+    paginate_by = 10
 
 
 class ListDetailView(LoginRequiredMixin, UserFilterMixin, generic.DetailView):
