@@ -5,7 +5,7 @@
     <ul class="pagination pagination-lg gap-4">
       {% if page_obj.has_previous %}
         <li class="page-item">
-          <a class="page-link border-0 rounded-3" href="?page={{ page_obj.previous_page_number }}" aria-label="{% translate 'Previous' %}">
+          <a class="page-link border-0 rounded-3 shadow-sm" href="?page={{ page_obj.previous_page_number }}" aria-label="{% translate 'Previous' %}">
             <span aria-hidden="true" class="d-flex align-items-center gap-2">
               <i class="bi bi-chevron-left"></i>
               {% translate 'Prev' %}
@@ -14,7 +14,7 @@
         </li>
       {% else %}
         <li class="page-item disabled">
-          <a class="page-link border-0 rounded-3" href="#" aria-label="{% translate 'Previous' %}">
+          <a class="page-link border-0 rounded-3 shadow-sm" href="#" aria-label="{% translate 'Previous' %}">
             <span aria-hidden="true" class="d-flex align-items-center gap-2">
               <i class="bi bi-chevron-left"></i>
               {% translate 'Prev' %}
@@ -23,7 +23,7 @@
         </li>
       {% endif %}
       <li class="page-item active">
-        <a class="page-link border-0 rounded-3 bg-dark" href="#" aria-label="{% translate 'Current' %}">
+        <a class="page-link border-0 rounded-3 bg-dark shadow-sm" href="#" aria-label="{% translate 'Current' %}">
           <span aria-hidden="true">
             {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
           </span>
@@ -31,7 +31,7 @@
       </li>
       {% if page_obj.has_next %}
         <li class="page-item">
-          <a class="page-link border-0 rounded-3" href="?page={{ page_obj.next_page_number }}" aria-label="{% translate 'Next' %}">
+          <a class="page-link border-0 rounded-3 shadow-sm" href="?page={{ page_obj.next_page_number }}" aria-label="{% translate 'Next' %}">
             <span aria-hidden="true" class="d-flex align-items-center gap-2">
               {% translate 'Next' %}
               <i class="bi bi-chevron-right"></i>
@@ -40,7 +40,7 @@
         </li>
       {% else %}
         <li class="page-item disabled">
-          <a class="page-link border-0 rounded-3" href="#" aria-label="{% translate 'Next' %}">
+          <a class="page-link border-0 rounded-3 shadow-sm" href="#" aria-label="{% translate 'Next' %}">
             <span aria-hidden="true" class="d-flex align-items-center gap-2">
               {% translate 'Next' %}
               <i class="bi bi-chevron-right"></i>

@@ -31,7 +31,7 @@ class UserCreateView(SuccessMessageMixin, generic.CreateView):
     form_class = UserCreationForm
     template_name = "tasks/user_form.html"
     success_url = reverse_lazy("tasks:profile")
-    success_message = "Your account created successfuly!"
+    success_message = "Your account created successfully!"
 
 
 class UserUpdateView(
@@ -45,7 +45,7 @@ class UserUpdateView(
     model = User
     template_name = "tasks/user_form.html"
     success_url = reverse_lazy("tasks:profile")
-    success_message = "Your account updated successfuly!"
+    success_message = "Your account updated successfully!"
     fields = ["username", "first_name", "last_name", "email"]
 
 
@@ -60,7 +60,7 @@ class UserDeleteView(
     model = User
     success_url = reverse_lazy("tasks:index")
     template_name = "tasks/user_confirm_delete.html"
-    success_message = "Your account deleted successfuly!"
+    success_message = "Your account deleted successfully!"
 
 
 # Lists
@@ -75,14 +75,14 @@ class ListCreateView(
     model = List
     fields = ["name", "description"]
     success_url = reverse_lazy("tasks:lists")
-    success_message = "List created successfuly!"
+    success_message = "List created successfully!"
 
 
 class ListView(LoginRequiredMixin, UserFilterMixin, generic.ListView):
     """Displays task lists"""
 
     model = List
-    paginate_by = 10
+    paginate_by = 9
 
 
 class ListDetailView(LoginRequiredMixin, UserFilterMixin, generic.DetailView):
@@ -102,7 +102,7 @@ class ListUpdateView(
     model = List
     fields = ["name", "description"]
     success_url = reverse_lazy("tasks:lists")
-    success_message = "List updated successfuly!"
+    success_message = "List updated successfully!"
 
 
 class ListDeleteView(
@@ -115,7 +115,7 @@ class ListDeleteView(
 
     model = List
     success_url = reverse_lazy("tasks:lists")
-    success_message = "List deleted successfuly!"
+    success_message = "List deleted successfully!"
 
 
 # Tasks
@@ -150,7 +150,7 @@ class TaskCreateView(
     """Creates a task"""
 
     model = Task
-    success_message = "Task created successfuly!"
+    success_message = "Task created successfully!"
     fields = [
         "list",
         "title",
@@ -178,7 +178,7 @@ class TaskUpdateView(
     """Updates a task"""
 
     model = Task
-    success_message = "Task updated successfuly!"
+    success_message = "Task updated successfully!"
     fields = [
         "title",
         "description",
@@ -199,4 +199,4 @@ class TaskDeleteView(
 
     model = Task
     success_url = reverse_lazy("tasks:index")
-    success_message = "Task deleted successfuly!"
+    success_message = "Task deleted successfully!"

@@ -4,6 +4,7 @@
 from django.db import models
 from django.core import validators
 from django.contrib.auth import get_user_model
+from tasks.validators import validate_deadline
 
 
 # Create your models here.
@@ -15,13 +16,26 @@ class List(models.Model):
 
     # The owner of the list
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-
     # Attributes
-    name = models.CharField(max_length=32, db_index=True, help_text="List name")
-    description = models.CharField(
-        max_length=256, null=True, blank=True, help_text="Task list description"
+    name = models.CharField(
+        # Maximum 32 chars
+        max_length=32,
+        # Index this field
+        db_index=True,
+        # Help message
+        help_text="List name",
     )
-
+    description = models.CharField(
+        # Maximum 256 chars
+        max_length=256,
+        # This field can be null [database]
+        null=True,
+        # This field can be empty [forms]
+        blank=True,
+        # Help message
+        help_text="Task list description",
+    )
+    # Created and last update datetimes
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -41,24 +55,55 @@ class Task(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     # The list that the task belongs to
     list = models.ForeignKey(List, on_delete=models.CASCADE)
-
     # Attributes
-    title = models.CharField(max_length=32, db_index=True, help_text="Task title")
+    title = models.CharField(
+        # Maximum 32 chars
+        max_length=32,
+        # Index this field
+        db_index=True,
+        # Help message
+        help_text="Task title",
+    )
     description = models.CharField(
-        max_length=256, null=True, blank=True, help_text="Task description"
+        # Maximum 256 chars
+        max_length=256,
+        # This field can be null [database]
+        null=True,
+        # This field can be empty [forms]
+        blank=True,
+        # Help message
+        help_text="Task description",
     )
     completed = models.BooleanField(
-        default=False, help_text="Designates if the task is completed"
+        # Default value
+        default=False,
+        # Help message
+        help_text="Designates if the task is completed",
     )
     starred = models.BooleanField(
-        default=False, help_text="Designates if the task is important"
+        # Default value
+        default=False,
+        # Help message
+        help_text="Designates if the task is important",
     )
-    deadline = models.DateField(
-        null=True, blank=True, db_index=True, help_text="Task deadline"
+    deadline = models.DateTimeField(
+        # Index this field
+        db_index=True,
+        # This field can be null [database]
+        null=True,
+        # This field can be empty [forms]
+        blank=True,
+        # Help message
+        help_text="Task deadline",
+        # Validation
+        validators=[validate_deadline],
     )
     completion_rate = models.PositiveSmallIntegerField(
+        # Default value
         default=0,
+        # Help message
         help_text="Task completion percentage",
+        # Validation
         validators=[
             validators.MaxValueValidator(
                 100, "Ensure this value is less than or equal to 100."
@@ -68,7 +113,7 @@ class Task(models.Model):
             ),
         ],
     )
-
+    # Created and last update datetimes
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
