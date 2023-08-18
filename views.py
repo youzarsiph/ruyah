@@ -35,10 +35,7 @@ class UserCreateView(SuccessMessageMixin, generic.CreateView):
 
 
 class UserUpdateView(
-    LoginRequiredMixin,
-    SuccessMessageMixin,
-    AccountOwnerMixin,
-    generic.UpdateView
+    LoginRequiredMixin, SuccessMessageMixin, AccountOwnerMixin, generic.UpdateView
 ):
     """Updates a user"""
 
@@ -50,10 +47,7 @@ class UserUpdateView(
 
 
 class UserDeleteView(
-    LoginRequiredMixin,
-    SuccessMessageMixin,
-    AccountOwnerMixin,
-    generic.DeleteView
+    LoginRequiredMixin, SuccessMessageMixin, AccountOwnerMixin, generic.DeleteView
 ):
     """Deletes a user"""
 
@@ -65,10 +59,7 @@ class UserDeleteView(
 
 # Lists
 class ListCreateView(
-    LoginRequiredMixin,
-    SuccessMessageMixin,
-    SaveWithUserMixin,
-    generic.CreateView
+    LoginRequiredMixin, SuccessMessageMixin, SaveWithUserMixin, generic.CreateView
 ):
     """Creates a task list"""
 
@@ -92,10 +83,7 @@ class ListDetailView(LoginRequiredMixin, UserFilterMixin, generic.DetailView):
 
 
 class ListUpdateView(
-    LoginRequiredMixin,
-    SuccessMessageMixin,
-    UserFilterMixin,
-    generic.UpdateView
+    LoginRequiredMixin, SuccessMessageMixin, UserFilterMixin, generic.UpdateView
 ):
     """Updates a task list"""
 
@@ -106,10 +94,7 @@ class ListUpdateView(
 
 
 class ListDeleteView(
-    LoginRequiredMixin,
-    SuccessMessageMixin,
-    UserFilterMixin,
-    generic.DeleteView
+    LoginRequiredMixin, SuccessMessageMixin, UserFilterMixin, generic.DeleteView
 ):
     """Deletes a task list"""
 
@@ -189,11 +174,14 @@ class TaskUpdateView(
     ]
 
 
+class TaskMarkView(TaskUpdateView):
+    """Updates a task"""
+
+    fields = ["completed", "starred"]
+
+
 class TaskDeleteView(
-    LoginRequiredMixin,
-    SuccessMessageMixin,
-    UserFilterMixin,
-    generic.DeleteView
+    LoginRequiredMixin, SuccessMessageMixin, UserFilterMixin, generic.DeleteView
 ):
     """Deletes a task"""
 

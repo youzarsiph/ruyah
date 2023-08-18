@@ -4,19 +4,17 @@
   <div class="d-flex flex-row align-items-center justify-content-between mb-4">
     <h3 class="mb-0">{{ task.title|title }}</h3>
     <div class="d-flex align-items-center gap-3">
-      <form method="post" action="{% url 'tasks:update_task' task.id %}" class="d-flex align-items-center gap-3">
+      <form method="post" action="{% url 'tasks:mark_task' task.id %}" class="d-flex align-items-center gap-3">
         {% csrf_token %}
-        <input type="hidden" name="title" value="{{ task.title }}">
-        <input type="hidden" id="starred" name="starred" value="{{ task.starred }}">
-        <input type="hidden" id="completed" name="completed" value="{{ task.completed }}">
-        <input type="hidden" id="completion_rate" name="completion_rate" value="{{ task.completion_rate }}">
+        <input type="hidden" id="starred-{{ task.id }}" name="starred" value="{{ task.starred }}">
+        <input type="hidden" id="completed-{{ task.id }}" name="completed" value="{{ task.completed }}">
 
         <button type="submit" class="btn btn-sm btn-{% if task.starred %}warning{% else %}light{% endif %} rounded-3"
-          onclick="document.getElementById('starred').setAttribute('value', !{% if task.starred %}true{% else %}false{% endif %})">
+          onclick="document.getElementById('starred-{{ task.id }}').setAttribute('value', !{% if task.starred %}true{% else %}false{% endif %})">
           <i class="bi bi-star{% if task.starred %}-fill{% endif %}"></i>
         </button>
         <button type="submit" class="btn btn-sm btn-{% if task.completed %}success{% else %}light{% endif %} rounded-3"
-          onclick="document.getElementById('completed').setAttribute('value', !{% if task.completed %}true{% else %}false{% endif %})">
+          onclick="document.getElementById('completed-{{ task.id }}').setAttribute('value', !{% if task.completed %}true{% else %}false{% endif %})">
           <i class="bi bi-check-square{% if task.completed %}-fill{% endif %}"></i>
         </button>
       </form>
