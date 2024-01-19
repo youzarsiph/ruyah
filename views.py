@@ -1,190 +1,55 @@
-""" Views """
+""" API endpoints for tasks """
 
 
-from django.views import generic
-from django.urls import reverse_lazy
-from django.contrib.auth.forms import UserCreationForm
-from django.contrib.auth.mixins import LoginRequiredMixin
-from django.contrib.messages.views import SuccessMessageMixin
-from tasks.models import User, List, Task
-from tasks.mixins import AccountOwnerMixin, UserFilterMixin, SaveWithUserMixin
+from rest_framework.viewsets import ModelViewSet
+from rest_framework.permissions import IsAuthenticated
+from tasks.mixins import OwnerMixin
+from tasks.models import List, Task
+from tasks.permissions import IsOwner
+from tasks.serializers import ListSerializer, TaskSerializer
 
 
 # Create your views here.
-class IndexView(generic.TemplateView):
-    """Home"""
+class ListViewSet(OwnerMixin, ModelViewSet):
+    """Create, read, update and delete task lists"""
 
-    template_name = "tasks/index.html"
-
-
-class ProfileView(LoginRequiredMixin, generic.TemplateView):
-    """Profile"""
-
-    template_name = "tasks/profile.html"
-
-
-# Users
-class UserCreateView(SuccessMessageMixin, generic.CreateView):
-    """Creates a user"""
-
-    model = User
-    form_class = UserCreationForm
-    template_name = "tasks/user_form.html"
-    success_url = reverse_lazy("tasks:profile")
-    success_message = "Your account created successfully!"
+    queryset = List.objects.all()
+    serializer_class = ListSerializer
+    permission_classes = [IsAuthenticated, IsOwner]
+    search_fields = ["name", "description"]
+    ordering_fields = ["name", "created_at" "updated_at"]
+    filterset_fields = ["name"]
 
 
-class UserUpdateView(
-    LoginRequiredMixin, SuccessMessageMixin, AccountOwnerMixin, generic.UpdateView
-):
-    """Updates a user"""
+class TaskViewSet(OwnerMixin, ModelViewSet):
+    """Create, read, update and delete tasks"""
 
-    model = User
-    template_name = "tasks/user_form.html"
-    success_url = reverse_lazy("tasks:profile")
-    success_message = "Your account updated successfully!"
-    fields = ["username", "first_name", "last_name", "email"]
-
-
-class UserDeleteView(
-    LoginRequiredMixin, SuccessMessageMixin, AccountOwnerMixin, generic.DeleteView
-):
-    """Deletes a user"""
-
-    model = User
-    success_url = reverse_lazy("tasks:index")
-    template_name = "tasks/user_confirm_delete.html"
-    success_message = "Your account deleted successfully!"
-
-
-# Lists
-class ListCreateView(
-    LoginRequiredMixin, SuccessMessageMixin, SaveWithUserMixin, generic.CreateView
-):
-    """Creates a task list"""
-
-    model = List
-    fields = ["name", "description"]
-    success_url = reverse_lazy("tasks:lists")
-    success_message = "List created successfully!"
-
-
-class ListView(LoginRequiredMixin, UserFilterMixin, generic.ListView):
-    """Displays task lists"""
-
-    model = List
-    paginate_by = 9
-
-
-class ListDetailView(LoginRequiredMixin, UserFilterMixin, generic.DetailView):
-    """Displays a task list"""
-
-    model = List
-
-
-class ListUpdateView(
-    LoginRequiredMixin, SuccessMessageMixin, UserFilterMixin, generic.UpdateView
-):
-    """Updates a task list"""
-
-    model = List
-    fields = ["name", "description"]
-    success_url = reverse_lazy("tasks:lists")
-    success_message = "List updated successfully!"
-
-
-class ListDeleteView(
-    LoginRequiredMixin, SuccessMessageMixin, UserFilterMixin, generic.DeleteView
-):
-    """Deletes a task list"""
-
-    model = List
-    success_url = reverse_lazy("tasks:lists")
-    success_message = "List deleted successfully!"
-
-
-# Tasks
-class BaseTaskView:
-    """Overrides get_success_url"""
-
-    def get_success_url(self):
-        """Return success_url"""
-
-        return reverse_lazy("tasks:list_detail", args=[self.object.list.pk])
-
-
-class StarredTasksView(LoginRequiredMixin, generic.TemplateView):
-    """Displays starred tasks"""
-
-    template_name = "tasks/starred.html"
-
-
-class CompletedTasksView(LoginRequiredMixin, generic.TemplateView):
-    """Displays starred tasks"""
-
-    template_name = "tasks/completed.html"
-
-
-class TaskCreateView(
-    LoginRequiredMixin,
-    SuccessMessageMixin,
-    SaveWithUserMixin,
-    BaseTaskView,
-    generic.CreateView,
-):
-    """Creates a task"""
-
-    model = Task
-    success_message = "Task created successfully!"
-    fields = [
-        "list",
+    queryset = Task.objects.all()
+    serializer_class = TaskSerializer
+    permission_classes = [IsAuthenticated, IsOwner]
+    search_fields = ["title", "description", "deadline"]
+    filterset_fields = ["list", "title", "is_completed", "is_starred", "deadline"]
+    ordering_fields = [
         "title",
-        "description",
-        "completed",
-        "starred",
         "deadline",
-        "completion_rate",
+        "is_starred",
+        "is_completed",
+        "created_at",
+        "updated_at",
     ]
 
 
-class TaskDetailView(LoginRequiredMixin, UserFilterMixin, generic.DetailView):
-    """Displays a task"""
+class ListTasksViewSet(TaskViewSet):
+    """Tasks of a task list"""
 
-    model = Task
+    def get_queryset(self):
+        """Filter queryset by list"""
 
+        list = List.objects.get(pk=self.kwargs["id"])
+        return super().get_queryset().filter(list=list)
 
-class TaskUpdateView(
-    LoginRequiredMixin,
-    SuccessMessageMixin,
-    UserFilterMixin,
-    BaseTaskView,
-    generic.UpdateView,
-):
-    """Updates a task"""
+    def perform_create(self, serializer):
+        """Adds a task to a task list"""
 
-    model = Task
-    success_message = "Task updated successfully!"
-    fields = [
-        "title",
-        "description",
-        "completed",
-        "starred",
-        "deadline",
-        "completion_rate",
-    ]
-
-
-class TaskMarkView(TaskUpdateView):
-    """Updates a task"""
-
-    fields = ["completed", "starred"]
-
-
-class TaskDeleteView(
-    LoginRequiredMixin, SuccessMessageMixin, UserFilterMixin, generic.DeleteView
-):
-    """Deletes a task"""
-
-    model = Task
-    success_url = reverse_lazy("tasks:index")
-    success_message = "Task deleted successfully!"
+        list = List.objects.get(pk=self.kwargs["id"])
+        serializer.save(user=self.request.user, list=list)

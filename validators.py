@@ -8,7 +8,7 @@ from django.core.exceptions import ValidationError
 
 # Create your validators here.
 def validate_deadline(value: datetime) -> None:
-    """Validate if the given deadline is after current datetime"""
+    """Validate if the given deadline is >= current datetime"""
 
     if value <= timezone.now():
         raise ValidationError(

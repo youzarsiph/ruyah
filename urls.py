@@ -1,41 +1,24 @@
-""" URLConf """
+""" URLConf for tasks """
 
 
-from django.urls import path
-from tasks import views
+from django.urls import path, include
+from rest_framework.routers import DefaultRouter
+from tasks.views import ListViewSet, TaskViewSet, ListTasksViewSet
 
 
-# Create your URLConf here.
-app_name = "tasks"
+# Create your routers here.
+router = DefaultRouter(trailing_slash=False)
+router.register("lists", ListViewSet, "list")
+router.register("tasks", TaskViewSet, "task")
 
+sub_router = DefaultRouter()
+sub_router.register("tasks", ListTasksViewSet, "task")
 
+# Create your patters here.
 urlpatterns = [
-    path("", views.IndexView.as_view(), name="index"),
-    path("accounts/profile/", views.ProfileView.as_view(), name="profile"),
-    # Users
-    path("accounts/regsiter/", views.UserCreateView.as_view(), name="register"),
+    path("", include(router.urls)),
     path(
-        "accounts/<int:pk>/update/",
-        views.UserUpdateView.as_view(),
-        name="update_user"
+        "lists/<int:id>/",
+        include((sub_router.urls, "lists"), namespace="lists"),
     ),
-    path(
-        "accounts/<int:pk>/delete/",
-        views.UserDeleteView.as_view(),
-        name="delete_user"
-    ),
-    # Lists
-    path("lists/", views.ListView.as_view(), name="lists"),
-    path("lists/new/", views.ListCreateView.as_view(), name="create_list"),
-    path("lists/<int:pk>/", views.ListDetailView.as_view(), name="list_detail"),
-    path("lists/<int:pk>/update/", views.ListUpdateView.as_view(), name="update_list"),
-    path("lists/<int:pk>/delete/", views.ListDeleteView.as_view(), name="delete_list"),
-    # Tasks
-    path("tasks/new/", views.TaskCreateView.as_view(), name="create_task"),
-    path("tasks/starred/", views.StarredTasksView.as_view(), name="starred"),
-    path("tasks/completed/", views.CompletedTasksView.as_view(), name="completed"),
-    path("tasks/<int:pk>/", views.TaskDetailView.as_view(), name="task_detail"),
-    path("tasks/<int:pk>/mark/", views.TaskMarkView.as_view(), name="mark_task"),
-    path("tasks/<int:pk>/update/", views.TaskUpdateView.as_view(), name="update_task"),
-    path("tasks/<int:pk>/delete/", views.TaskDeleteView.as_view(), name="delete_task"),
 ]

@@ -1,35 +1,27 @@
-""" Mixins """
+""" Mixins for tasks """
 
 
-from django.contrib.auth.mixins import UserPassesTestMixin
+from rest_framework.permissions import IsAuthenticated
 
 
 # Create your mixins here.
-class AccountOwnerMixin(UserPassesTestMixin):
-    """Checks if current logged in user is the owner of the account"""
+class OwnerMixin:
+    """Allow owners only"""
 
-    def test_func(self):
-        """Return True if request.user == self.get_object"""
+    def perform_create(self, serializer):
+        """Add object's owner"""
 
-        return self.request.user == self.get_object()
-
-
-class UserFilterMixin:
-    """Display objects of currently logged in user"""
+        serializer.save(user=self.request.user)
 
     def get_queryset(self):
-        """Filter the queryset by user"""
+        """Return only objects of current logged in user"""
 
         return super().get_queryset().filter(user=self.request.user)
 
+    def get_permissions(self):
+        """Permissions based on self.action"""
 
-class SaveWithUserMixin:
-    """Add the owner of the object"""
+        if self.action == "create":
+            self.permission_classes = [IsAuthenticated]
 
-    def form_valid(self, form):
-        """Save object with user"""
-
-        obj = form.save(commit=False)
-        obj.user = self.request.user
-
-        return super().form_valid(form)
+        return super().get_permissions()

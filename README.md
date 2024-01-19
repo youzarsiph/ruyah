@@ -1,3 +1,3 @@
 # tasks
 
-Back end system for tasks-mobile
+Task management system built using Python, Django and DRF.
