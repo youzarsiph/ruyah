@@ -1,6 +1,10 @@
 """ API endpoints for tasks """
 
 
+from rest_framework import status
+from rest_framework.request import Request
+from rest_framework.decorators import action
+from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.permissions import IsAuthenticated
 from tasks.mixins import OwnerMixin
@@ -37,6 +41,34 @@ class TaskViewSet(OwnerMixin, ModelViewSet):
         "created_at",
         "updated_at",
     ]
+
+    @action(detail=True, methods=["POST"], url_path="mark-starred")
+    def mark_starred(self, request: Request, pk: int) -> Response:
+        """Marks a task as starred"""
+
+        task = self.get_object()
+        task.is_starred = not task.is_starred
+        task.save()
+        return Response(
+            {
+                "details": f"Task {task.id} {'added to' if task.is_starred else 'removed from'} starred tasks"
+            },
+            status=status.HTTP_200_OK,
+        )
+
+    @action(detail=True, methods=["POST"], url_path="mark-completed")
+    def mark_completed(self, request: Request, pk: int) -> Response:
+        """Marks a task as completed"""
+
+        task = self.get_object()
+        task.is_completed = not task.is_completed
+        task.save()
+        return Response(
+            {
+                "details": f"Task {task.id} {'added to' if task.is_completed else 'removed from'} completed tasks"
+            },
+            status=status.HTTP_200_OK,
+        )
 
 
 class ListTasksViewSet(TaskViewSet):
