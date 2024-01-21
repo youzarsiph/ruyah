@@ -85,3 +85,15 @@ class ListTasksViewSet(TaskViewSet):
 
         list = List.objects.get(pk=self.kwargs["id"])
         serializer.save(user=self.request.user, list=list)
+
+    @action(detail=True, methods=["POST"], url_path="mark-starred")
+    def mark_starred(self, request: Request, id: int, pk: int) -> Response:
+        """Marks a task as starred"""
+
+        return super().mark_starred(request, pk)
+
+    @action(detail=True, methods=["POST"], url_path="mark-completed")
+    def mark_completed(self, request: Request, id: int, pk: int) -> Response:
+        """Marks a task as completed"""
+
+        return super().mark_completed(request, pk)
