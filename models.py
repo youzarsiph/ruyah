@@ -26,8 +26,6 @@ class List(models.Model):
     )
     description = models.CharField(
         max_length=256,
-        null=True,
-        blank=True,
         help_text="Task list description",
     )
     created_at = models.DateTimeField(
@@ -63,8 +61,6 @@ class Task(models.Model):
     )
     description = models.CharField(
         max_length=256,
-        null=True,
-        blank=True,
         help_text="Task description",
     )
     is_completed = models.BooleanField(
