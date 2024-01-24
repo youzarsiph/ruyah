@@ -20,6 +20,8 @@ class ListSerializer(ModelSerializer):
             "user",
             "name",
             "description",
+            "progress",
+            "task_count",
             "created_at",
             "updated_at",
         ]
@@ -41,9 +43,9 @@ class TaskSerializer(ModelSerializer):
             "title",
             "description",
             "deadline",
+            "progress",
             "is_starred",
             "is_completed",
-            "completion_rate",
             "created_at",
             "updated_at",
         ]

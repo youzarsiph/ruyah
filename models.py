@@ -17,6 +17,7 @@ class List(models.Model):
     user = models.ForeignKey(
         User,
         on_delete=models.CASCADE,
+        related_name="lists",
         help_text="Task list owner",
     )
     name = models.CharField(
@@ -37,6 +38,18 @@ class List(models.Model):
         help_text="Last update",
     )
 
+    @property
+    def progress(self) -> float:
+        """Returns completion"""
+
+        return self.tasks.filter(is_completed=True).count() / self.tasks.count()
+
+    @property
+    def task_count(self) -> float:
+        """Returns number of tasks in the list"""
+
+        return self.tasks.count()
+
     def __str__(self):
         return self.name
 
@@ -47,11 +60,13 @@ class Task(models.Model):
     user = models.ForeignKey(
         User,
         on_delete=models.CASCADE,
+        related_name="tasks",
         help_text="Task owner",
     )
     list = models.ForeignKey(
         List,
         on_delete=models.CASCADE,
+        related_name="tasks",
         help_text="Task list",
     )
     title = models.CharField(
@@ -78,9 +93,9 @@ class Task(models.Model):
         help_text="Task deadline",
         validators=[validate_deadline],
     )
-    completion_rate = models.PositiveSmallIntegerField(
+    progress = models.PositiveSmallIntegerField(
         default=0,
-        help_text="Task completion percentage",
+        help_text="Task completion progress",
         validators=[
             validators.MaxValueValidator(
                 100,
@@ -106,12 +121,12 @@ class Task(models.Model):
 
         constraints = [
             models.CheckConstraint(
-                name="completion_rate_gte_0",
-                check=models.Q(completion_rate__gte=0),
+                name="progress_gte_0",
+                check=models.Q(progress__gte=0),
             ),
             models.CheckConstraint(
-                name="completion_rate_lte_100",
-                check=models.Q(completion_rate__lte=100),
+                name="progress_lte_100",
+                check=models.Q(progress__lte=100),
             ),
         ]
 
