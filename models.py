@@ -1,6 +1,5 @@
 """ Task Data Models """
 
-
 from django.db import models
 from django.core import validators
 from django.contrib.auth import get_user_model
@@ -12,7 +11,7 @@ User = get_user_model()
 
 
 class List(models.Model):
-    """Task Lists"""
+    """Model representing a task list."""
 
     user = models.ForeignKey(
         User,
@@ -40,22 +39,40 @@ class List(models.Model):
 
     @property
     def progress(self) -> float:
-        """Returns completion"""
+        """
+        Calculate and return the progress of the task list.
 
-        return self.tasks.filter(is_completed=True).count() / self.tasks.count()
+        Returns:
+        float: The progress of the task list.
+        """
+
+        return (
+            self.tasks.filter(is_completed=True).count() / self.tasks.count()
+            if self.tasks.count() != 0
+            else 1
+        )
 
     @property
-    def task_count(self) -> float:
-        """Returns number of tasks in the list"""
+    def task_count(self) -> int:
+        """
+        Calculate and return the number of tasks in the task list.
+
+        Returns:
+        int: The number of tasks in the task list.
+        """
 
         return self.tasks.count()
 
-    def __str__(self):
+    def __str__(self) -> str:
         return self.name
+
+    class Meta:
+        verbose_name = "Task List"
+        verbose_name_plural = "Task Lists"
 
 
 class Task(models.Model):
-    """Tasks"""
+    """Model representing a task."""
 
     user = models.ForeignKey(
         User,
@@ -95,7 +112,7 @@ class Task(models.Model):
     )
     progress = models.PositiveSmallIntegerField(
         default=0,
-        help_text="Task completion progress",
+        help_text="Task progress",
         validators=[
             validators.MaxValueValidator(
                 100,
@@ -116,9 +133,14 @@ class Task(models.Model):
         help_text="Last update",
     )
 
-    class Meta:
-        """Meta data"""
+    def __str__(self) -> str:
+        return self.title
 
+    class Meta:
+        """Meta Data"""
+
+        verbose_name = "Task"
+        verbose_name_plural = "Tasks"
         constraints = [
             models.CheckConstraint(
                 name="progress_gte_0",
@@ -129,6 +151,3 @@ class Task(models.Model):
                 check=models.Q(progress__lte=100),
             ),
         ]
-
-    def __str__(self):
-        return self.title
