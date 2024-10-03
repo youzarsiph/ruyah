@@ -1,99 +1,63 @@
-""" Task Data Models """
+"""
+Task Model
+
+Model Fields:
+- user: Task owner
+- list: Task list
+- title: Task title
+- description: Task description
+- is_completed: Task completion status
+- is_starred: Task importance status
+- deadline: Task deadline
+- priority: Task priority
+- tags: Task tags
+- progress: Task progress
+- created_at: Task creation date
+- updated_at: Task last update date
+"""
 
 from django.db import models
 from django.core import validators
 from django.contrib.auth import get_user_model
-from tasks.validators import validate_deadline
+from task_flow.tasks.validators import validate_deadline
+from tasks.task_flow.tasks import TASK_PRIORITIES
 
 
 # Create your models here.
 User = get_user_model()
 
 
-class List(models.Model):
-    """Model representing a task list."""
-
-    user = models.ForeignKey(
-        User,
-        on_delete=models.CASCADE,
-        related_name="lists",
-        help_text="Task list owner",
-    )
-    name = models.CharField(
-        max_length=32,
-        db_index=True,
-        help_text="Task list name",
-    )
-    description = models.CharField(
-        max_length=256,
-        help_text="Task list description",
-    )
-    created_at = models.DateTimeField(
-        auto_now_add=True,
-        help_text="Date created",
-    )
-    updated_at = models.DateTimeField(
-        auto_now=True,
-        help_text="Last update",
-    )
-
-    @property
-    def progress(self) -> float:
-        """
-        Calculate and return the progress of the task list.
-
-        Returns:
-        float: The progress of the task list.
-        """
-
-        return (
-            self.tasks.filter(is_completed=True).count() / self.tasks.count()
-            if self.tasks.count() != 0
-            else 1
-        )
-
-    @property
-    def task_count(self) -> int:
-        """
-        Calculate and return the number of tasks in the task list.
-
-        Returns:
-        int: The number of tasks in the task list.
-        """
-
-        return self.tasks.count()
-
-    def __str__(self) -> str:
-        return self.name
-
-    class Meta:
-        verbose_name = "Task List"
-        verbose_name_plural = "Task Lists"
-
-
 class Task(models.Model):
-    """Model representing a task."""
+    """Tasks"""
 
     user = models.ForeignKey(
         User,
         on_delete=models.CASCADE,
         related_name="tasks",
-        help_text="Task owner",
+        help_text="Owner",
+    )
+    category = models.ForeignKey(
+        "categories.Category",
+        on_delete=models.CASCADE,
+        related_name="tasks",
+        help_text="Task category",
     )
     list = models.ForeignKey(
-        List,
+        "lists.List",
         on_delete=models.CASCADE,
         related_name="tasks",
         help_text="Task list",
     )
     title = models.CharField(
         max_length=32,
+        unique=True,
         db_index=True,
-        help_text="Task title",
+        help_text="Title",
     )
     description = models.CharField(
         max_length=256,
-        help_text="Task description",
+        db_index=True,
+        help_text="Description",
     )
     is_completed = models.BooleanField(
         default=False,
@@ -101,14 +65,25 @@ class Task(models.Model):
     )
     is_starred = models.BooleanField(
         default=False,
-        help_text="Designates if the task is important",
+        help_text="Designates if the task is added to favorites",
     )
     deadline = models.DateTimeField(
-        db_index=True,
         null=True,
         blank=True,
+        db_index=True,
         help_text="Task deadline",
         validators=[validate_deadline],
+    )
+    priority = models.PositiveSmallIntegerField(
+        default=0,
+        help_text="Priority",
+        choices=TASK_PRIORITIES,
+    )
+    tags = models.ManyToManyField(
+        "tags.Tag",
+        blank=True,
+        related_name="tasks",
+        help_text="Task tags",
     )
     progress = models.PositiveSmallIntegerField(
         default=0,
@@ -133,14 +108,9 @@ class Task(models.Model):
         help_text="Last update",
     )
 
-    def __str__(self) -> str:
-        return self.title
-
     class Meta:
         """Meta Data"""
 
-        verbose_name = "Task"
-        verbose_name_plural = "Tasks"
         constraints = [
             models.CheckConstraint(
                 name="progress_gte_0",
@@ -151,3 +121,6 @@ class Task(models.Model):
                 check=models.Q(progress__lte=100),
             ),
         ]
+
+    def __str__(self) -> str:
+        return self.title

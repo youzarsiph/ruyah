@@ -16,8 +16,8 @@ def validate_deadline(value: datetime) -> None:
     ValidationError: If the deadline is less than the current datetime.
     """
 
-    current_time = timezone.now()
-    if value <= current_time:
+    if value <= timezone.now():
         raise ValidationError(
-            f"The deadline {value} is not valid. It should be set after the current date and time {current_time}."
+            f"The deadline {value} is not valid."
+            "It should be set after the current date and time."
         )

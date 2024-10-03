@@ -1,0 +1,53 @@
+name: Django CI
+
+on:
+  push:
+    branches: ["main"]
+  pull_request:
+    branches: ["main"]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+          
+      - name: Install Dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Create Django Project
+        run: |
+          python -m django startproject mysite
+
+      - name: Add task_flow to django project
+        run: mv task_flow mysite
+          
+
+      - name: Setup task_flow
+        run: |
+          cd mysite
+          echo "INSTALLED_APPS += ['task_flow', 'task_flow.categories', 'task_flow.lists','task_flow.tags', 'task_flow.tasks', 'task_flow.users', 'drf_redesign', 'rest_framework']" >> mysite/settings.py
+          echo "AUTH_USER_MODEL = 'users.User'" >> mysite/settings.py
+          echo "from django.urls import include" >> mysite/urls.py
+          echo "urlpatterns += [path('', include('task_flow.urls'))]" >> mysite/urls.py
+
+      - name: Run Migrations
+        run: |
+          cd mysite
+          python manage.py migrate
+
+      - name: Run Checks
+        run: |
+          cd mysite
+          python manage.py check
+
+      - name: Run Tests
+        run: |
+          cd mysite
+          python manage.py test

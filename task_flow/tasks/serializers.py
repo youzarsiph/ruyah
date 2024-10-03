@@ -1,32 +1,10 @@
-""" Serializers """
-
+""" Serializers for task_flow.tasks """
 
 from rest_framework.serializers import ModelSerializer
-from tasks.models import List, Task
+from task_flow.tasks.models import Task
 
 
 # Create your serializers here.
-class ListSerializer(ModelSerializer):
-    """Task List Serializer"""
-
-    class Meta:
-        """Meta data"""
-
-        model = List
-        read_only_fields = ["user"]
-        fields = [
-            "id",
-            "url",
-            "user",
-            "name",
-            "description",
-            "progress",
-            "task_count",
-            "created_at",
-            "updated_at",
-        ]
-
-
 class TaskSerializer(ModelSerializer):
     """Task Serializer"""
 
@@ -43,6 +21,7 @@ class TaskSerializer(ModelSerializer):
             "title",
             "description",
             "deadline",
+            "priority",
             "progress",
             "is_starred",
             "is_completed",
