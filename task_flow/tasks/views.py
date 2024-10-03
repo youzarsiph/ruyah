@@ -23,11 +23,13 @@ class TaskViewSet(OwnerMixin, ModelViewSet):
     search_fields = ["title", "description"]
     ordering_fields = ["title", "deadline", "priority", "created_at", "updated_at"]
     filterset_fields = [
+        "category",
         "list",
-        "title",
+        "tags",
+        "progress",
         "priority",
-        "is_completed",
         "is_starred",
+        "is_completed",
         "deadline",
     ]
 

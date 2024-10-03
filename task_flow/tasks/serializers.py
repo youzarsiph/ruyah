@@ -12,12 +12,13 @@ class TaskSerializer(ModelSerializer):
         """Meta data"""
 
         model = Task
-        read_only_fields = ["user", "list"]
+        read_only_fields = ["user", "progress"]
         fields = [
             "id",
             "url",
             "user",
             "list",
+            "category",
             "title",
             "description",
             "deadline",
@@ -25,6 +26,7 @@ class TaskSerializer(ModelSerializer):
             "progress",
             "is_starred",
             "is_completed",
+            "tags",
             "created_at",
             "updated_at",
         ]

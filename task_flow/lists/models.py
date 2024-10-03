@@ -32,7 +32,6 @@ class List(models.Model):
     )
     name = models.CharField(
         max_length=32,
-        unique=True,
         db_index=True,
         help_text="Name",
     )

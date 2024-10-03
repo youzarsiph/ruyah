@@ -20,7 +20,7 @@ from django.db import models
 from django.core import validators
 from django.contrib.auth import get_user_model
 from task_flow.tasks.validators import validate_deadline
-from tasks.task_flow.tasks import TASK_PRIORITIES
+from task_flow.tasks import TASK_PRIORITIES
 
 
 # Create your models here.
@@ -50,7 +50,6 @@ class Task(models.Model):
     )
     title = models.CharField(
         max_length=32,
-        unique=True,
         db_index=True,
         help_text="Title",
     )

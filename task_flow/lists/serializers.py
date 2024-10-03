@@ -2,7 +2,7 @@
 
 from rest_framework.serializers import ModelSerializer
 
-from lists.models import List
+from task_flow.lists.models import List
 
 
 # Create your serializers here.

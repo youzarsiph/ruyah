@@ -1,4 +1,4 @@
-""" Mixins for tasks """
+""" Mixins """
 
 
 # Create your mixins here.

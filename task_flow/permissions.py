@@ -1,4 +1,4 @@
-""" Permissions """
+""" Custom access permissions """
 
 from rest_framework.permissions import BasePermission
 
