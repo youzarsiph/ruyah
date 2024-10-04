@@ -1,4 +1,4 @@
-""" AppConf for task_flow.tags """
+""" App Configuration for task_flow.tags """
 
 from django.apps import AppConfig
 

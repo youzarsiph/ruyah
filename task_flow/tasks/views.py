@@ -17,7 +17,7 @@ from task_flow.tasks.serializers import TaskSerializer
 class TaskViewSet(OwnerMixin, ModelViewSet):
     """Task API endpoints"""
 
-    queryset = Task.objects.all()
+    queryset = Task.objects.prefetch_related("category", "list", "tags")
     serializer_class = TaskSerializer
     permission_classes = [IsAuthenticated, IsOwner]
     search_fields = ["title", "description"]

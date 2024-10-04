@@ -13,11 +13,9 @@ class ListSerializer(ModelSerializer):
         """Meta data"""
 
         model = List
-        read_only_fields = ["user"]
         fields = [
             "id",
             "url",
-            "user",
             "name",
             "description",
             "progress",
@@ -25,3 +23,13 @@ class ListSerializer(ModelSerializer):
             "created_at",
             "updated_at",
         ]
+
+
+class ListRetrieveSerializer(ListSerializer):
+    """Task List Serializer for retrieve action"""
+
+    class Meta:
+        """Meta data"""
+
+        depth = 1
+        fields = ListSerializer.Meta.fields + ["tasks"]

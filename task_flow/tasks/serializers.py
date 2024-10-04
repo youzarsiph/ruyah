@@ -11,12 +11,12 @@ class TaskSerializer(ModelSerializer):
     class Meta:
         """Meta data"""
 
+        depth = 1
         model = Task
-        read_only_fields = ["user", "progress"]
+        read_only_fields = ["progress"]
         fields = [
             "id",
             "url",
-            "user",
             "list",
             "category",
             "title",

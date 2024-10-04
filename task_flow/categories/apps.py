@@ -1,4 +1,4 @@
-""" AppConf for task_flow.categories """
+""" App Configuration for task_flow.categories """
 
 from django.apps import AppConfig
 

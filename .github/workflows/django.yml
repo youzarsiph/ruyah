@@ -32,7 +32,7 @@ jobs:
       - name: Setup task_flow
         run: |
           cd mysite
-          echo "INSTALLED_APPS += ['task_flow', 'task_flow.categories', 'task_flow.lists','task_flow.tags', 'task_flow.tasks', 'task_flow.users', 'drf_redesign', 'rest_framework']" >> mysite/settings.py
+          echo "INSTALLED_APPS += ['task_flow', 'task_flow.categories', 'task_flow.comments', 'task_flow.lists','task_flow.tags', 'task_flow.tasks', 'task_flow.users', 'drf_redesign', 'rest_framework']" >> mysite/settings.py
           echo "AUTH_USER_MODEL = 'users.User'" >> mysite/settings.py
           echo "from django.urls import include" >> mysite/urls.py
           echo "urlpatterns += [path('', include('task_flow.urls'))]" >> mysite/urls.py

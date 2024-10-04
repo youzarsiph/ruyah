@@ -1,4 +1,4 @@
-""" AppConf for task_flow.users """
+""" App Configuration for task_flow.users """
 
 from django.apps import AppConfig
 
