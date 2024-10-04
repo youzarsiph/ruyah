@@ -58,6 +58,12 @@ class Task(models.Model):
         db_index=True,
         help_text="Description",
     )
+    attachment = models.FileField(
+        null=True,
+        blank=True,
+        upload_to="files/tasks/",
+        help_text="Attach a file",
+    )
     is_completed = models.BooleanField(
         default=False,
         help_text="Designates if the task is completed",

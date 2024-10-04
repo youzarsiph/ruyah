@@ -37,6 +37,12 @@ class Comment(models.Model):
         db_index=True,
         help_text="Content",
     )
+    attachment = models.FileField(
+        null=True,
+        blank=True,
+        upload_to="files/tasks/",
+        help_text="Attach a file",
+    )
     created_at = models.DateTimeField(
         auto_now_add=True,
         help_text="Date created",

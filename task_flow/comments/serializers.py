@@ -18,6 +18,7 @@ class CommentSerializer(ModelSerializer):
             "url",
             "task",
             "content",
+            "attachment",
             "created_at",
             "updated_at",
         ]
