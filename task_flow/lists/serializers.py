@@ -28,7 +28,7 @@ class ListSerializer(ModelSerializer):
 class ListRetrieveSerializer(ListSerializer):
     """Task List Serializer for retrieve action"""
 
-    class Meta:
+    class Meta(ListSerializer.Meta):
         """Meta data"""
 
         depth = 1

@@ -11,9 +11,7 @@ class TaskSerializer(ModelSerializer):
     class Meta:
         """Meta data"""
 
-        depth = 1
         model = Task
-        read_only_fields = ["progress"]
         fields = [
             "id",
             "url",
@@ -26,7 +24,18 @@ class TaskSerializer(ModelSerializer):
             "progress",
             "is_starred",
             "is_completed",
+            "comments",
             "tags",
+            "subtasks",
             "created_at",
             "updated_at",
         ]
+
+
+class TaskRetrieveSerializer(TaskSerializer):
+    """Task serializer for retrieve action"""
+
+    class Meta(TaskSerializer.Meta):
+        """Meta data"""
+
+        depth = 1

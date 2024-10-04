@@ -10,14 +10,20 @@ from rest_framework.permissions import IsAuthenticated
 from task_flow.mixins import OwnerMixin
 from task_flow.permissions import IsOwner
 from task_flow.tasks.models import Task
-from task_flow.tasks.serializers import TaskSerializer
+from task_flow.tasks.serializers import TaskRetrieveSerializer, TaskSerializer
 
 
 # Create your views here.
 class TaskViewSet(OwnerMixin, ModelViewSet):
     """Task API endpoints"""
 
-    queryset = Task.objects.prefetch_related("category", "list", "tags")
+    queryset = Task.objects.prefetch_related(
+        "category",
+        "list",
+        "comments",
+        "tags",
+        "subtasks",
+    )
     serializer_class = TaskSerializer
     permission_classes = [IsAuthenticated, IsOwner]
     search_fields = ["title", "description"]
@@ -62,3 +68,9 @@ class TaskViewSet(OwnerMixin, ModelViewSet):
             },
             status=status.HTTP_200_OK,
         )
+
+    def get_serializer(self, *args, **kwargs):
+        if self.action == "retrieve":
+            self.serializer_class = TaskRetrieveSerializer
+
+        return super().get_serializer(*args, **kwargs)

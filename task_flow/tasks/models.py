@@ -98,6 +98,13 @@ class Task(models.Model):
             ),
         ],
     )
+    sub_tasks = models.ManyToManyField(
+        "self",
+        blank=True,
+        symmetrical=False,
+        related_name="subtasks",
+        help_text="Subtasks",
+    )
     created_at = models.DateTimeField(
         auto_now_add=True,
         help_text="Date created",

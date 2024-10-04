@@ -29,7 +29,7 @@ class Comment(models.Model):
     task = models.ForeignKey(
         "tasks.Task",
         on_delete=models.CASCADE,
-        related_name="tasks",
+        related_name="comments",
         help_text="Task",
     )
     content = models.CharField(
