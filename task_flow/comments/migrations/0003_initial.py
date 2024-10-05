@@ -10,18 +10,18 @@ class Migration(migrations.Migration):
     initial = True
 
     dependencies = [
-        ("lists", "0001_initial"),
+        ("comments", "0002_initial"),
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
     ]
 
     operations = [
         migrations.AddField(
-            model_name="list",
+            model_name="comment",
             name="user",
             field=models.ForeignKey(
-                help_text="Task list owner",
+                help_text="Comment owner",
                 on_delete=django.db.models.deletion.CASCADE,
-                related_name="lists",
+                related_name="Comments",
                 to=settings.AUTH_USER_MODEL,
             ),
         ),

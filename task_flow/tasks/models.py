@@ -20,7 +20,7 @@ from django.db import models
 from django.core import validators
 from django.contrib.auth import get_user_model
 from task_flow.tasks.validators import validate_deadline
-from task_flow.tasks import TASK_PRIORITIES
+from task_flow.tasks import TASK_PRIORITIES, TASK_RECURRENCE_TYPES
 
 
 # Create your models here.
@@ -110,6 +110,35 @@ class Task(models.Model):
         symmetrical=False,
         related_name="subtasks",
         help_text="Subtasks",
+    )
+    is_recurring = models.BooleanField(
+        default=False,
+        help_text="Designates if the task is recurring",
+    )
+    recurrence_type = models.PositiveSmallIntegerField(
+        null=True,
+        blank=True,
+        choices=TASK_RECURRENCE_TYPES,
+        help_text="The type of recurrence",
+    )
+    recurrence_interval = models.PositiveSmallIntegerField(
+        default=1,
+        help_text="Interval of recurrence (e.g., every 2 days)",
+    )
+    recurrence_start_date = models.DateTimeField(
+        null=True,
+        blank=True,
+        help_text="Date when the recurrence starts",
+    )
+    recurrence_end_date = models.DateTimeField(
+        null=True,
+        blank=True,
+        help_text="Date when the recurrence ends (optional)",
+    )
+    occurrence_count = models.PositiveIntegerField(
+        null=True,
+        blank=True,
+        help_text="Number of occurrences before stopping (optional)",
     )
     created_at = models.DateTimeField(
         auto_now_add=True,

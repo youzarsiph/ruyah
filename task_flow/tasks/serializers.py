@@ -28,6 +28,12 @@ class TaskSerializer(ModelSerializer):
             "comments",
             "tags",
             "subtasks",
+            "is_recurring",
+            "recurrence_type",
+            "recurrence_interval",
+            "recurrence_start_date",
+            "recurrence_end_date",
+            "occurrence_count",
             "created_at",
             "updated_at",
         ]

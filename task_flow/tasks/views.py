@@ -37,6 +37,8 @@ class TaskViewSet(OwnerMixin, ModelViewSet):
         "is_starred",
         "is_completed",
         "deadline",
+        "is_recurring",
+        "recurrence_type",
     ]
 
     @action(detail=True, methods=["POST"])
