@@ -1,11 +1,12 @@
 [tool.poetry]
 package-mode = false
-name = "tasks"
+name = "ruyah"
 version = "0.1.0"
-description = "TaskFlow is your ultimate task management companion designed to help individuals navigate their daily responsibilities with ease and efficiency."
+description = "Ru'yah serves as a comprehensive task management solution, designed to empower individuals and teams in efficiently navigating their daily responsibilities."
 authors = ["Yousef Abu Shanab <josephyousef249@gmail.com>"]
 license = "MIT"
 readme = "README.md"
+packages = [{ include = "ruyah" }]
 
 [tool.poetry.dependencies]
 python = "3.10"
